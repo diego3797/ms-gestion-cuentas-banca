@@ -1,0 +1,13 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /ms-gestion-banca/v1
+
+spring:
+  application:
+    name: ms-gestion-banca-v1
+  data:
+    mongodb:
+      user: admin
+      password: admin
+      uri: mongodb://localhost:27017/Bank
