@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "5b7ba713-8de7-4773-8669-bbd3504cb349",
+		"name": "Bank_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8013224",
+		"_collection_link": "https://www.postman.com/dixgoandres/workspace/test/collection/8013224-5b7ba713-8de7-4773-8669-bbd3504cb349?action=share&source=collection_link&creator=8013224"
+	},
+	"item": [
+		{
+			"name": "Lista Client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/ms-gestion-banca/v1/client/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ms-gestion-banca",
+						"v1",
+						"client",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registro Cliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"clientType\" : \"Personal\",\r\n\t\"dataPersonal\" : {\r\n\t\t\"documentType\" : \"1\",\r\n\t\t\"documentNumber\" : \"45859966\",\r\n\t\t\"name\" : \"Alexandra\",\r\n\t\t\"lastFather\" : \"Merino\",\r\n\t\t\"lastMother\" : \"Alvarez\",\r\n\t\t\"birthDay\" : \"1992-05-15\"\r\n\t},\r\n\t\"email\" : \"alexandra.merino@gmail.com\",\r\n\t\"phono\" : \"968524201\",\r\n\t\"address\" : {\r\n\t\t\"street\" : \"Lytton Ave 2\",\r\n\t\t\"number\" : \"145\",\r\n\t\t\"district\" : \"San Isidro 2\",\r\n\t\t\"province\" : \"Lima\",\r\n\t\t\"state\" : \"Lima\"\r\n\t},\r\n\t\"product\" : [\r\n\t\t{\r\n\t\t\t\"account\" : [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Plazo Fijo\",\r\n\t\t\t\t\t\"card\" : \"552758596322566\",\r\n\t\t\t\t\t\"number\" : \"1992001451166\",\r\n\t\t\t\t\t\"limitovement\" : 5,\r\n\t\t\t\t\t\"dayMovement\" : 12,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12585\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2022-01-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 2000.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12586\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2022-12-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 500.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12588\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-01 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"RETIRO\",\r\n\t\t\t\t\t\t\t\"mount\" : 100.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2024-01-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"ucrcal Las Gardenias 66\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Gardenias 66\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Patricio Franco Mena\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Susana Rios Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 2500.00\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Ahorro\",\r\n\t\t\t\t\t\"card\" : \"4552758596322577\",\r\n\t\t\t\t\t\"number\" : \"1992001451177\",\r\n\t\t\t\t\t\"comission\" : 0,\r\n\t\t\t\t\t\"limitovement\" : 3,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11256\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-05 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 800.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11257\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 400.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11258\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 200.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2022-12-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"cal Las Gardenias\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Gardenias 77\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Alejandro Brando Perez\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Carlos Barreda Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 1400.00\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"credit\" : [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Personal\",\r\n\t\t\t\t\t\"car\" : \"3777548264577\",\r\n\t\t\t\t\t\"number\" : \"15484554177\",\r\n\t\t\t\t\t\"limitCredit\" : 2000.00,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"13256\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"CONSUMO\",\r\n\t\t\t\t\t\t\t\"mount\" : 300.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"13257\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"CONSUMO\",\r\n\t\t\t\t\t\t\t\"mount\" : 700.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2023-02-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"ucrcal Las Camelias\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Camelias 77\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Patricio Franco Mena\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Susana Rios Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 1000.00\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/ms-gestion-banca/v1/client",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ms-gestion-banca",
+						"v1",
+						"client"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtiene Cliente por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/ms-gestion-banca/v1/client/65af0a822795b5353b4b248d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ms-gestion-banca",
+						"v1",
+						"client",
+						"65af0a822795b5353b4b248d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualiza Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\" : \"65af0a822795b5353b4b248d\",\r\n\t\"clientType\" : \"Personal\",\r\n\t\"dataPersonal\" : {\r\n\t\t\"documentType\" : \"1\",\r\n\t\t\"documentNumber\" : \"45859966\",\r\n\t\t\"name\" : \"Alexandra xx5\",\r\n\t\t\"lastFather\" : \"Merino\",\r\n\t\t\"lastMother\" : \"Alvarez\",\r\n\t\t\"birthDay\" : \"1992-05-15\"\r\n\t},\r\n\t\"email\" : \"alexandra.merino@gmail.com\",\r\n\t\"phono\" : \"968524201\",\r\n\t\"address\" : {\r\n\t\t\"street\" : \"Lytton Ave 2\",\r\n\t\t\"number\" : \"145\",\r\n\t\t\"district\" : \"San Isidro 2\",\r\n\t\t\"province\" : \"Lima\",\r\n\t\t\"state\" : \"Lima\"\r\n\t},\r\n\t\"product\" : [\r\n\t\t{\r\n\t\t\t\"account\" : [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Plazo Fijo\",\r\n\t\t\t\t\t\"card\" : \"552758596322566\",\r\n\t\t\t\t\t\"number\" : \"1992001451166\",\r\n\t\t\t\t\t\"limitovement\" : 5,\r\n\t\t\t\t\t\"dayMovement\" : 12,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12585\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2022-01-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 2000.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12586\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2022-12-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 500.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"12588\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-01 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"RETIRO\",\r\n\t\t\t\t\t\t\t\"mount\" : 100.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2024-01-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"ucrcal Las Gardenias 66\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Gardenias 66\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Patricio Franco Mena\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Susana Rios Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 2500.00\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Ahorro\",\r\n\t\t\t\t\t\"card\" : \"4552758596322577\",\r\n\t\t\t\t\t\"number\" : \"1992001451177\",\r\n\t\t\t\t\t\"comission\" : 0,\r\n\t\t\t\t\t\"limitovement\" : 3,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11256\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-05 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 800.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11257\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-10 10:05:45\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 400.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"11258\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"DEPOSITO\",\r\n\t\t\t\t\t\t\t\"mount\" : 200.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2022-12-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"cal Las Gardenias\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Gardenias 77\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Alejandro Brando Perez\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Carlos Barreda Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 1400.00\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"credit\" : [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\" : \"Personal\",\r\n\t\t\t\t\t\"car\" : \"3777548264577\",\r\n\t\t\t\t\t\"number\" : \"15484554177\",\r\n\t\t\t\t\t\"limitCredit\" : 2000.00,\r\n\t\t\t\t\t\"movements\" : [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"13256\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"CONSUMO\",\r\n\t\t\t\t\t\t\t\"mount\" : 300.00\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"numberOperation\" : \"13257\",\r\n\t\t\t\t\t\t\t\"dateOperation\" : \"2023-01-15 19:22:05\",\r\n\t\t\t\t\t\t\t\"operationType\" : \"CONSUMO\",\r\n\t\t\t\t\t\t\t\"mount\" : 700.00\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n\t\t\t\t\t\"dateCreation\" : \"2023-02-15 18:35:25\",\r\n\t\t\t\t\t\"sucursal\" : {\r\n\t\t\t\t\t\t\"id\" : \"144\",\r\n\t\t\t\t\t\t\"name\" : \"ucrcal Las Camelias\",\r\n\t\t\t\t\t\t\"address\" : \"Cale Las Camelias 77\",\r\n\t\t\t\t\t\t\"nameOperator\" : \"Patricio Franco Mena\",\r\n\t\t\t\t\t\t\"nameManager\" : \"Susana Rios Torres\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"balance\" : 1000.00\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/ms-gestion-banca/v1/client/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ms-gestion-banca",
+						"v1",
+						"client",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Cliente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/ms-gestion-banca/v1/client/65af15cc9826be185a7f35e5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ms-gestion-banca",
+						"v1",
+						"client",
+						"65af15cc9826be185a7f35e5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
