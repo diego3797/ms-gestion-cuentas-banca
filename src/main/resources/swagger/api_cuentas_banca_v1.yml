@@ -1,0 +1,910 @@
+openapi: 3.0.3
+info:
+  title: Swagger Bank Management - OpenAPI 3.0
+  description: |-
+    This is a bank customer account management server, where the customer can use and consult their banking products.
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://managementBank.swagger.io/api/v3
+tags:
+  - name: client
+    description: Everything about clients data
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: operation
+    description: Everything about clients operations
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: credit
+    description: Everything about clients credits operations
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: product
+    description: Everything about clients product querys
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /client:
+    post:
+      tags:
+        - client
+      summary: Add a new client in the bank
+      description: Add a new client in the bank
+      operationId: addClient
+      requestBody:
+        description: Create a new client in the bank
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+        '405':
+          description: Invalid input
+    put:
+      tags:
+        - client
+      summary: Update a client in the bank
+      description: Update a client in the bank
+      operationId: updClient
+      requestBody:
+        description: Update a client in the bank
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClientRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+        '405':
+          description: Invalid input
+  /client/{clientId}:
+    delete:
+      tags:
+        - client
+      summary: Deletes a client
+      description: delete a client
+      operationId: deleteClient
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of client to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid client value
+    get:
+      tags:
+        - client
+      summary: List all clients from bank
+      description: List all clients from bank
+      operationId: getClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of client to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
+  /client/list:
+    get:
+      tags:
+        - client
+      summary: List all clients from bank
+      description: List all clients from bank
+      operationId: getClients
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+
+  /operation/deposit:
+    post:
+      tags:
+        - operation
+      summary: Make deposit to count
+      description: Make deposit to count
+      operationId: registerDeposit
+      requestBody:
+        description: Make deposit to count
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/DepositRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DepositRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountOperationResponse'
+        '405':
+          description: Invalid input
+  /operation/withdrawal:
+    post:
+      tags:
+        - operation
+      summary: Make withdrawal to count
+      description: Make withdrawal to count
+      operationId: registerWithdrawal
+      requestBody:
+        description: Make withdrawal to count
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WithdrawalRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/WithdrawalRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WithdrawalRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AccountOperationResponse'
+        '405':
+          description: Invalid input
+
+  /credit/pay:
+    post:
+      tags:
+        - credit
+      summary: Make pay of credit
+      description: Make pay of credit
+      operationId: registerPay
+      requestBody:
+        description: Make pay of credit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PayRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PayRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CreditOperationResponse'
+        '405':
+          description: Invalid input
+  /credit/consume:
+    post:
+      tags:
+        - credit
+      summary: Make consume of credit
+      description: Make consume of credit
+      operationId: registerConsume
+      requestBody:
+        description: Make consume of credit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsumeRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ConsumeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsumeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CreditOperationResponse'
+        '405':
+          description: Invalid input
+
+  /product/balance/{number}:
+    get:
+      tags:
+        - product
+      summary: Gets balance of client account or credit card
+      description: Gets balance of client account or credit card
+      operationId: getBalanceProduct
+      parameters:
+        - name: number
+          in: path
+          description: Account number or Credit number of product of client
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: product not found
+  /product/balance/{numberDocument}:
+    get:
+      tags:
+        - product
+      summary: Gets balance all product of client
+      description: Gets balance all product of client
+      operationId: getAllProduct
+      parameters:
+        - name: numberDocument
+          in: path
+          description: number document of client
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductBalanceResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProductBalanceResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: product not found
+  /product/movements/{number}:
+    get:
+      tags:
+        - product
+      summary: Gets the movements of client account or credit card
+      description: Gets the movements of client account or credit card
+      operationId: getMovements
+      parameters:
+        - name: number
+          in: path
+          description: Account number or Credit number of product of client
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceMovementsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BalanceMovementsResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not foundg
+
+components:
+  schemas:
+    ClientRequest:
+      type: object
+      properties:
+        clientType:
+          type: string
+          example: "Personal"
+        dataCompany:
+          $ref: '#/components/schemas/DataCompany'
+        dataPersonal:
+          $ref: '#/components/schemas/DataPersonal'
+        email:
+          type: string
+          example: "jorge.velz@gmail.com"
+        phono:
+          type: string
+          example: "956885231"
+        address:
+          $ref: '#/components/schemas/Address'
+        product:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Product'
+      xml:
+        name: client
+      required:
+        - clientType
+        - email
+        - phono
+        - address
+        - product
+    ClientResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65addeafbd32677c7efd0b6e"
+        clientType:
+          type: string
+          example: "Personal"
+        dataCompany:
+          $ref: '#/components/schemas/DataCompany'
+        dataPersonal:
+          $ref: '#/components/schemas/DataPersonal'
+        email:
+          type: string
+          example: "jorge.velz@gmail.com"
+        phono:
+          type: string
+          example: "956885231"
+        address:
+          $ref: '#/components/schemas/Address'
+        product:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Product'
+        ubigeo:
+          $ref: '#/components/schemas/Ubigeo'
+      xml:
+        name: client
+    DataPersonal:
+      type: object
+      properties:
+        documentType:
+          type: string
+          example: "1"
+        documentNumber:
+          type: string
+          example: "45859966"
+        name:
+          type: string
+          example: "Jorge"
+        lastFather:
+          type: string
+          example: "Velazco"
+        lastMother:
+          type: string
+          example: "Peralta"
+        birthdate:
+          type: string
+          example: "1985-10-12"
+      xml:
+        name: dataPersonal
+      required:
+        - documentType
+        - documentNumber
+        - name
+        - lastFather
+        - lastMother
+        - birthdate
+    DataCompany:
+      type: object
+      properties:
+        ruc:
+          type: string
+          example: "10458899999"
+        name:
+          type: string
+          example: "Cementos Lima SAC"
+        dateCreationCompany:
+          type: string
+          example: "2019-10-22"
+      xml:
+        name: dataCompany
+      required:
+        - ruc
+        - name
+        - dateCreationCompany
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Lytton Ave"
+        number:
+          type: string
+          example: "145"
+        district:
+          type: string
+          example: "San Isidro"
+        province:
+          type: string
+          example: "Lima"
+        state:
+          type: string
+          example: "Lima"
+      xml:
+        name: address
+      required:
+        - street
+        - number
+        - district
+        - province
+        - state
+    Product:
+      type: object
+      properties:
+        account:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Account'
+        credit:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Credit'
+      xml:
+        name: product
+    Account:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Ahorro"
+        card:
+          type: string
+          example: "4552758596322526"
+        number:
+          type: string
+          example: "1992001451121"
+        limitMovement:
+          type: number
+          example: 3
+        dayMovement:
+          type: number
+          example: 15
+        comission:
+          type: number
+          example: 2.05
+        movements:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Movements'
+        dateCreation:
+          type: string
+          example: "2023-02-15 18:35:25"
+        sucursal:
+          $ref: '#/components/schemas/Sucursal'
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: account
+      required:
+        - type
+        - number
+        - movements
+        - province
+        - sucursal
+        - balance
+    Credit:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "3777548264581"
+        number:
+          type: string
+          example: "15484554144"
+        limitCredit:
+          type: number
+          example: 7000.00
+        movements:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Movements'
+        company:
+          $ref: '#/components/schemas/Company'
+        dateCreation:
+          type: string
+          example: "2023-02-15 18:35:25"
+        sucursal:
+          $ref: '#/components/schemas/Sucursal'
+        balance:
+          type: number
+          example: 7000.00
+      xml:
+        name: credit
+      required:
+        - type
+        - card
+        - number
+        - limitCredit
+        - movements
+        - sucursal
+        - balance
+    CreditOperationResponse:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeCredit:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "3777548264581"
+        limitCredit:
+          type: number
+          example: 7000.00
+        balance:
+          type: number
+          example: 7000.00
+      xml:
+        name: creditOperationResponse
+    AccountOperationResponse:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeAccount:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "3777548264581"
+        number:
+          type: string
+          example: "15484554144"
+        balance:
+          type: number
+          example: 7000.00
+      xml:
+        name: creditOperationResponse
+    Movements:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        dateOperation:
+          type: string
+          example: "2023-01-10 10:05:45"
+        operationType:
+          type: string
+          description: "Tipo de Operacion"
+          example: "Retiro"
+          enum:
+            - RETIRO
+            - DEPOSITO
+            - CONSUMO
+        mount:
+          type: number
+          example: 40.00
+      xml:
+        name: movements
+      required:
+        - operationType
+        - mount
+    Company:
+      type: object
+      properties:
+        autorizedSignatory:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/DataPersonal'
+        titular:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/DataPersonal'
+      xml:
+        name: company
+    Sucursal:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1544"
+        name:
+          type: string
+          example: "Sucurcal Las Camelias"
+        address:
+          type: string
+          example: "Calle Las Camelias 651"
+        nameOperator:
+          type: string
+          example: "Patricio Franco Mena"
+        nameManager:
+          type: string
+          example: "Susana Rios Torres"
+      xml:
+        name: sucursal
+      required:
+        - id
+        - name
+        - address
+        - nameOperator
+        - nameManager
+    Ubigeo:
+      type: object
+      properties:
+        userCreation:
+          type: string
+          example: "user01"
+        dateCreation:
+          type: string
+          example: "2023-01-15 19:22:05"
+        userUpdate:
+          type: string
+          example: "user02"
+        dateUpdate:
+          type: string
+          example: "2023-01-15 19:22:05"
+      xml:
+        name: ubigeo
+
+    DepositRequest:
+      type: object
+      properties:
+        typeAccount:
+          type: string
+          example: "Personal"
+        numberAccount:
+          type: string
+          example: "1992001451121"
+        mount:
+          type: number
+          example: 45874.00
+      xml:
+        name: deposit
+      required:
+        - typeAccount
+        - numberAccount
+        - mount
+    WithdrawalRequest:
+      type: object
+      properties:
+        typeAccount:
+          type: string
+          example: "Personal"
+        numberAccount:
+          type: string
+          example: "1992001451121"
+        mount:
+          type: number
+          example: 500.00
+      xml:
+        name: withdrawal
+      required:
+        - typeAccount
+        - numberAccount
+        - mount
+
+    PayRequest:
+      type: object
+      properties:
+        creditType:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "4552758596322526"
+        payType:
+          type: string
+          description: "Pay type"
+          example: "Pago Minimo"
+          enum:
+            - PAGO_MINIMO
+            - PAGO_TOTAL
+            - ABONO
+        mount:
+          type: number
+          example: 120.00
+      xml:
+        name: pay
+      required:
+        - creditType
+        - card
+        - payType
+        - mount
+    ConsumeRequest:
+      type: object
+      properties:
+        creditType:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "4552758596322526"
+        mountConsume:
+          type: number
+          example: 120.00
+      xml:
+        name: consume
+      required:
+        - creditType
+        - card
+        - mountConsume
+
+    BalanceAccountResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Ahorro"
+        card:
+          type: string
+          example: "4552758596322526"
+        number:
+          type: string
+          example: "1992001451121"
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: balanceAccount
+    BalanceCreditResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Personal"
+        card:
+          type: string
+          example: "4552758596322526"
+        number:
+          type: string
+          example: "1992001451121"
+        limitCredit:
+          type: number
+          example: 8000.00
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: balanceCredit
+    ProductBalanceResponse:
+      type: object
+      properties:
+        account:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/BalanceAccountResponse'
+        credit:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/BalanceCreditResponse'
+        totalBalance:
+          type: number
+          example: 3000.00
+      xml:
+        name: productBalance
+    BalanceMovementsResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Ahorro"
+        card:
+          type: string
+          example: "4552758596322526"
+        number:
+          type: string
+          example: "1992001451121"
+        movements:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Movements'
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: balanceMovements
