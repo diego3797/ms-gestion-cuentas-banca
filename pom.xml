@@ -13,8 +13,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gestionbanca</name>
 	<description>Demo project for Spring Boot</description>
+	<distributionManagement>
+		<repository>
+			<id>gestion-banca</id>
+			<name>Releases</name>
+			<url>file://${user.home}/.m2/repository</url>
+		</repository>
+	</distributionManagement>
 	<properties>
 		<java.version>11</java.version>
+		<junit.jupiter>5.9.2</junit.jupiter>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -56,6 +64,11 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>3.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -72,37 +85,41 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!--
 			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.6.0</version>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>generate</goal>
+							<goal>prepare-agent</goal>
 						</goals>
-						<configuration>
-							<inputSpec>
-								${project.basedir}/src/main/resources/swagger/api_cuentas_banca_v1.yml
-							</inputSpec>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.prueba.gestionbanca.api</apiPackage>
-							<modelPackage>com.prueba.gestionbanca.model</modelPackage>
-							<supportingFilesToGenerate>
-								ApiUtil.java
-							</supportingFilesToGenerate>
-							<configOptions>
-								<reactive>true</reactive>
-								<delegatePattern>true</delegatePattern>
-								<serializableModel>true</serializableModel>
-							</configOptions>
-						</configuration>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
-			-->
+
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<!-- Optional URL to server. Default value is http://localhost:9000 -->
+				<sonar.host.url>
+					http://localhost:9000
+				</sonar.host.url>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>

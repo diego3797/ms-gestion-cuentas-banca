@@ -3,6 +3,7 @@ package com.prueba.gestionbanca.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +12,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
+ * .
  * ClientRequest
  */
 @Data
@@ -25,27 +24,27 @@ import java.util.List;
 @Builder
 public class Client {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @JsonSerialize(using = ToStringSerializer.class)
-    @Id
-    private ObjectId id;
+  @JsonSerialize(using = ToStringSerializer.class)
+  @Id
+  private ObjectId id;
 
-    private String clientType;
+  private String clientType;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private DataCompany dataCompany;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private DataCompany dataCompany;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private DataPersonal dataPersonal;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private DataPersonal dataPersonal;
 
-    private String email;
+  private String email;
 
-    private String phono;
+  private String phono;
 
-    private Address address;
+  private Address address;
 
-    private List<Product> product;
+  private List<Product> product;
 
-    private Ubigeo ubigeo;
+  private Ubigeo ubigeo;
 }

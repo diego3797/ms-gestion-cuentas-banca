@@ -1,5 +1,6 @@
 package com.prueba.gestionbanca.service;
 
+import com.prueba.gestionbanca.dto.ClientDto;
 import com.prueba.gestionbanca.expose.request.ClientRequest;
 import com.prueba.gestionbanca.model.Client;
 import reactor.core.publisher.Flux;
@@ -25,8 +26,12 @@ public interface ClientService {
 
     Flux<Client> findAll();
 
-    Mono<Client> update(Client client);
+    Mono<Client> update(ClientDto client);
 
     Mono<Void> delete(String id);
+
+    Mono<Client> findProductCreditByCard(String number);
+
+    Mono<Client> findProductCreditByNumberAccount(String number);
 
 }
