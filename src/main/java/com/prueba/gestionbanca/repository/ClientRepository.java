@@ -20,9 +20,17 @@ import reactor.core.publisher.Mono;
  */
 @Repository
 public interface ClientRepository extends ReactiveMongoRepository<Client, Object> {
-    @Query(value = "{'product.credit.number': ?0}")
-    Mono<Client> findByProductCreditNumber(String creditNumber);
+    @Query(value = "{ 'product.account.number': ?0 }", fields = "{ 'product.account.$': 1 }")
+    Mono<Client> findAccountByNumber(String number);
 
-    @Query(value = "{'product.credit.card': ?0}")
-    Mono<Client> findByProductCreditCard(String cardNumber);
+    @Query(value = "{ 'product.credit.card': ?0 }", fields = "{ 'product.credit.$': 1 }")
+    Mono<Client> findCreditByNumber(String number);
+
+    @Query(value = "{ 'dataPersonal.documentNumber': ?0 }", fields = "{ _id: 0,"
+                                                        + " clientType: 0,\n"
+                                                        + " dataPersonal: 0,\n"
+                                                        + " email: 0,\n"
+                                                        + " phono: 0,\n"
+                                                        + " address: 0  }")
+    Mono<Client> findProductsByDocumentNumber(String document);
 }

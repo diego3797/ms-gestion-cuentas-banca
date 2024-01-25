@@ -46,7 +46,7 @@ public class ClientRequest {
   private Address address;
 
   @Valid
-  private List<@Valid Product> product = new ArrayList<>();
+  private Product product;
 
 }
 

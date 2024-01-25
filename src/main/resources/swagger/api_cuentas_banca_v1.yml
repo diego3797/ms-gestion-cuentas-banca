@@ -293,7 +293,7 @@ paths:
         '405':
           description: Invalid input
 
-  /product/balance/{number}:
+  /product/balance/account/{number}:
     get:
       tags:
         - product
@@ -434,11 +434,7 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         product:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/Product'
         ubigeo:
           $ref: '#/components/schemas/Ubigeo'
       xml:
@@ -831,13 +827,13 @@ components:
     BalanceAccountResponse:
       type: object
       properties:
-        type:
+        typeAccount:
           type: string
           example: "Ahorro"
-        card:
+        numberCard:
           type: string
           example: "4552758596322526"
-        number:
+        numberAccount:
           type: string
           example: "1992001451121"
         balance:

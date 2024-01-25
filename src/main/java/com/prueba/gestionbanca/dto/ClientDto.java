@@ -46,6 +46,6 @@ public class ClientDto {
 
   private Address address;
 
-  private List<Product> product;
+  private Product product;
 
 }

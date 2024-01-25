@@ -57,7 +57,7 @@ public class ClientController {
             description = "Add a new client in the bank",
             tags = { "client" },
             responses = {
-              @ApiResponse(responseCode = "200", description = "Successful operation",
+              @ApiResponse(responseCode = "201", description = "Successful operation",
                             content = {
                               @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = Client.class)),
@@ -73,7 +73,7 @@ public class ClientController {
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
   )
   public ResponseEntity<Mono<Client>> addClient(@Valid @RequestBody ClientRequest clientRequest) {
-    return new ResponseEntity<Mono<Client>>(clientService.addClient(clientRequest), HttpStatus.OK);
+    return new ResponseEntity<Mono<Client>>(clientService.addClient(clientRequest), HttpStatus.CREATED);
   }
 
 

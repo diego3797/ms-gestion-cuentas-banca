@@ -44,7 +44,7 @@ public class Client {
 
   private Address address;
 
-  private List<Product> product;
+  private Product product;
 
   private Ubigeo ubigeo;
 }
