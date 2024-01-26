@@ -164,7 +164,7 @@ paths:
                   format: int32
 
   /operation/deposit:
-    post:
+    put:
       tags:
         - operation
       summary: Make deposit to count
@@ -175,13 +175,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
         required: true
       responses:
         '200':
@@ -196,7 +196,7 @@ paths:
         '405':
           description: Invalid input
   /operation/withdrawal:
-    post:
+    put:
       tags:
         - operation
       summary: Make withdrawal to count
@@ -207,13 +207,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
         required: true
       responses:
         '200':
@@ -229,7 +229,7 @@ paths:
           description: Invalid input
 
   /credit/pay:
-    post:
+    put:
       tags:
         - credit
       summary: Make pay of credit
@@ -240,13 +240,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
         required: true
       responses:
         '200':
@@ -261,7 +261,7 @@ paths:
         '405':
           description: Invalid input
   /credit/consume:
-    post:
+    put:
       tags:
         - credit
       summary: Make consume of credit
@@ -272,13 +272,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
         required: true
       responses:
         '200':
@@ -399,11 +399,7 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         product:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/Product'
       xml:
         name: client
       required:
@@ -741,12 +737,9 @@ components:
       xml:
         name: ubigeo
 
-    DepositRequest:
+    MovementRequest:
       type: object
       properties:
-        typeAccount:
-          type: string
-          example: "Personal"
         numberAccount:
           type: string
           example: "1992001451121"
@@ -759,42 +752,21 @@ components:
         - typeAccount
         - numberAccount
         - mount
-    WithdrawalRequest:
-      type: object
-      properties:
-        typeAccount:
-          type: string
-          example: "Personal"
-        numberAccount:
-          type: string
-          example: "1992001451121"
-        mount:
-          type: number
-          example: 500.00
-      xml:
-        name: withdrawal
-      required:
-        - typeAccount
-        - numberAccount
-        - mount
 
-    PayRequest:
+    CreditRequest:
       type: object
       properties:
-        creditType:
-          type: string
-          example: "Personal"
         card:
           type: string
           example: "4552758596322526"
         payType:
           type: string
           description: "Pay type"
-          example: "Pago Minimo"
+          example: "1"
           enum:
-            - PAGO_MINIMO
-            - PAGO_TOTAL
-            - ABONO
+            - PAGO_MINIMO, 1
+            - PAGO_TOTAL, 2
+            - ABONO, 3
         mount:
           type: number
           example: 120.00
@@ -805,24 +777,6 @@ components:
         - card
         - payType
         - mount
-    ConsumeRequest:
-      type: object
-      properties:
-        creditType:
-          type: string
-          example: "Personal"
-        card:
-          type: string
-          example: "4552758596322526"
-        mountConsume:
-          type: number
-          example: 120.00
-      xml:
-        name: consume
-      required:
-        - creditType
-        - card
-        - mountConsume
 
     BalanceAccountResponse:
       type: object

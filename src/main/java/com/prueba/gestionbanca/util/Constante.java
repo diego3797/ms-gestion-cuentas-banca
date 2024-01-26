@@ -21,8 +21,11 @@ public class Constante {
 
     public static String USER_MS = "API-MS-BANK";
 
-    public static Integer DIGITS_CARD = 20;
+    public static Integer DIGITS_CARD = 16;
+    public static Integer DIGITS_ACCOUNT_CTACORRIENTE = 13;
+    public static Integer DIGITS_ACCOUNT_AHORRO = 14;
 
-    public static Integer DIGITS_ACCOUNT = 16;
+    public static String PAGO_CREDIT = "PAGO_CREDIT";
+    public static String CONSUMO_CREDIT = "CONSUMO_CREDIT";
 
 }

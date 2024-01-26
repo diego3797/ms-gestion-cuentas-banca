@@ -1,8 +1,9 @@
 package com.prueba.gestionbanca.expose;
 
-import com.prueba.gestionbanca.expose.request.ConsumeRequest;
-import com.prueba.gestionbanca.expose.request.PayRequest;
+import com.prueba.gestionbanca.expose.request.CreditRequest;
 import com.prueba.gestionbanca.expose.response.CreditOperationResponse;
+import com.prueba.gestionbanca.service.CreditService;
+import com.prueba.gestionbanca.util.Constante;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CreditController {
 
+  @Autowired
+  private CreditService creditService;
+
   /**
   * .
   * POST /credit/consume : Make consume of credit
@@ -63,7 +69,7 @@ public class CreditController {
             }
     )
   @RequestMapping(
-          method = RequestMethod.POST,
+          method = RequestMethod.PUT,
           value = "/consume",
           produces = { "application/json", "application/xml" },
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
@@ -71,9 +77,11 @@ public class CreditController {
   public ResponseEntity<Mono<CreditOperationResponse>> registerConsume(
           @Parameter(name = "ConsumeRequest",
                   description = "Make consume of credit", required = true)
-          @Valid @RequestBody Mono<ConsumeRequest> consumeRequest
+          @Valid @RequestBody CreditRequest consumeRequest
   ) {
-    return null;
+    return new ResponseEntity<Mono<CreditOperationResponse>>(
+              creditService.registerMovementCredit(consumeRequest, Constante.CONSUMO_CREDIT),
+            HttpStatus.OK);
   }
 
 
@@ -102,16 +110,17 @@ public class CreditController {
           }
   )
   @RequestMapping(
-          method = RequestMethod.POST,
+          method = RequestMethod.PUT,
           value = "/pay",
           produces = { "application/json", "application/xml" },
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
   )
   public ResponseEntity<Mono<CreditOperationResponse>> registerPay(
           @Parameter(name = "PayRequest", description = "Make pay of credit", required = true)
-          @Valid @RequestBody Mono<PayRequest> payRequest
+          @Valid @RequestBody CreditRequest payRequest
   ) {
-    return null;
+    return new ResponseEntity<Mono<CreditOperationResponse>>(
+            creditService.registerMovementCredit(payRequest, Constante.PAGO_CREDIT), HttpStatus.OK);
   }
 
 }

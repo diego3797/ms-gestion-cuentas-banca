@@ -1,9 +1,6 @@
 package com.prueba.gestionbanca.service.impl;
 
-import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
-import com.prueba.gestionbanca.expose.response.BalanceCreditResponse;
-import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
-import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
+import com.prueba.gestionbanca.expose.response.*;
 import com.prueba.gestionbanca.model.Account;
 import com.prueba.gestionbanca.model.Credit;
 import com.prueba.gestionbanca.repository.ClientRepository;
@@ -12,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.prueba.gestionbanca.util.Constante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -48,11 +47,12 @@ public class ProductServiceImpl implements ProductService {
    */
   @Override
   public Mono<BalanceAccountResponse> findProducByNumber(String number) {
-    if (number.length() == 16) {
+    if (number.length() == Constante.DIGITS_CARD) {
       return findProductByCardNumber(number);
     }
 
-    if (number.length() == 13 || number.length() == 14) {
+    if (number.length() == Constante.DIGITS_ACCOUNT_CTACORRIENTE
+            || number.length() == Constante.DIGITS_ACCOUNT_AHORRO) {
       return findProductByNumberAccount(number);
     }
 
@@ -122,6 +122,8 @@ public class ProductServiceImpl implements ProductService {
               .build());
     });
   }
+
+
 
   /**
   * a.

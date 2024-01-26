@@ -2,6 +2,7 @@ package com.prueba.gestionbanca.model;
 
 import com.prueba.gestionbanca.util.EnumOperationType;
 import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class Movements {
 
   private String numberOperation;
 
-  private String dateOperation;
+  private Date dateOperation;
 
   private EnumOperationType operationType;
 

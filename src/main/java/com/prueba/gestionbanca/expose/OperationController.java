@@ -1,8 +1,9 @@
 package com.prueba.gestionbanca.expose;
 
-import com.prueba.gestionbanca.expose.request.DepositRequest;
-import com.prueba.gestionbanca.expose.request.WithdrawalRequest;
+import com.prueba.gestionbanca.expose.request.MovementRequest;
 import com.prueba.gestionbanca.expose.response.AccountOperationResponse;
+import com.prueba.gestionbanca.service.OperationService;
+import com.prueba.gestionbanca.util.EnumOperationType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +42,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class OperationController {
 
+  @Autowired
+  private OperationService operationService;
+
   /**
    * .
    * POST /operation/deposit : Make deposit to count
@@ -64,7 +70,7 @@ public class OperationController {
             }
   )
   @RequestMapping(
-          method = RequestMethod.POST,
+          method = RequestMethod.PUT,
           value = "/deposit",
           produces = { "application/json", "application/xml" },
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
@@ -72,9 +78,11 @@ public class OperationController {
   public ResponseEntity<Mono<AccountOperationResponse>> registerDeposit(
           @Parameter(name = "DepositRequest",
                   description = "Make deposit to count", required = true)
-          @Valid @RequestBody Mono<DepositRequest> depositRequest
+          @Valid @RequestBody MovementRequest depositRequest
   ) {
-    return null;
+    return new ResponseEntity<Mono<AccountOperationResponse>>(
+              operationService.registerMovementAccount(depositRequest, EnumOperationType.DEPOSITO),
+            HttpStatus.OK);
   }
 
 
@@ -103,7 +111,7 @@ public class OperationController {
           }
   )
   @RequestMapping(
-          method = RequestMethod.POST,
+          method = RequestMethod.PUT,
           value = "/withdrawal",
           produces = { "application/json", "application/xml" },
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
@@ -111,8 +119,11 @@ public class OperationController {
   public ResponseEntity<Mono<AccountOperationResponse>> registerWithdrawal(
           @Parameter(name = "WithdrawalRequest",
                   description = "Make withdrawal to count", required = true)
-          @Valid @RequestBody Mono<WithdrawalRequest> withdrawalRequest
+          @Valid @RequestBody MovementRequest withdrawalRequest
   ) {
-    return null;
+    return new ResponseEntity<Mono<AccountOperationResponse>>(
+              operationService.registerMovementAccount(withdrawalRequest,
+                                                        EnumOperationType.RETIRO),
+            HttpStatus.OK);
   }
 }

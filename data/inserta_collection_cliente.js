@@ -7,7 +7,7 @@ db.client.insertMany([
 		"name" : "Grabiela",
 		"lastFather" : "Serpa",
 		"lastMother" : "Gutierres",
-		"birthDay" : "1985-10-12"
+		"birthDay" :  ISODate("1985-10-12T00:00:00")
 	},
 	"email" : "grabiela.serpa@gmail.com",
 	"phono" : "56885231",
@@ -28,24 +28,24 @@ db.client.insertMany([
         		"movements" : [
         			{
         				"numberOperation" : "12581",
-        				"dateOperation" : "2022-01-10 10:05:45",
+        				"dateOperation" : ISODate("2022-01-20T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 100.00
+        				"mount" : NumberDecimal("100.00")
         			},
         			{
         				"numberOperation" : "12582",
-        				"dateOperation" : "2022-12-10 10:05:45",
+        				"dateOperation" : ISODate("2022-12-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 1500.00
+        				"mount" : NumberDecimal("1500.00")
         			},
         			{
         				"numberOperation" : "12583",
-        				"dateOperation" : "2023-01-01 19:22:05",
+        				"dateOperation" : ISODate("2023-01-01T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : 200.00
+        				"mount" : NumberDecimal("200.00")
         			}
         		],
-        		"dateCreation" : "2021-11-15 18:35:25",
+        		"dateCreation" : ISODate("2021-11-15T18:35:25"),
         		"sucursal" : {
         			"id" : "144",
         			"name" : "ucrcal Las Gardenias",
@@ -53,34 +53,34 @@ db.client.insertMany([
         			"nameOperator" : "Patricio Franco Mena",
         			"nameManager" : "Susana Rios Torres"
         		},
-        		"balance" : 1000.00
+        		"balance" : NumberDecimal("1000.00")
         	},
         	{
         		"type" : "Cta Corriente",
         		"card" : "4552758596322556",
         		"number" : "1992001451156",
-        		"comission" : 0.75,
+        		"comission" : NumberDecimal("0.75"),
         		"movements" : [
         			{
         				"numberOperation" : "19685",
-        				"dateOperation" : "2023-01-05 10:05:45",
+        				"dateOperation" : ISODate("2023-01-05T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 800.00
+        				"mount" : NumberDecimal("800.00")
         			},
         			{
         				"numberOperation" : "19686",
-        				"dateOperation" : "2023-01-10 10:05:45",
+        				"dateOperation" : ISODate("2023-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 400.00
+        				"mount" : NumberDecimal("400.00")
         			},
         			{
         				"numberOperation" : "19687",
-        				"dateOperation" : "2023-01-15 19:22:05",
+        				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : 200.00
+        				"mount" : NumberDecimal("200.00")
         			}
         		],
-        		"dateCreation" : "2022-12-15 18:35:25",
+        		"dateCreation" : ISODate("2022-12-15T18:35:25"),
         		"sucursal" : {
         			"id" : "144",
         			"name" : "cal Las Gardenias",
@@ -88,7 +88,7 @@ db.client.insertMany([
         			"nameOperator" : "Alejandro Brando Perez",
         			"nameManager" : "Carlos Barreda Torres"
         		},
-        		"balance" : 1200.00
+        		"balance" : NumberDecimal("1200.00")
         	}
         ],
         "credit" : [
@@ -96,16 +96,16 @@ db.client.insertMany([
         		"type" : "Personal",
         		"card" : "3777548264544",
         		"number" : "15484554144",
-        		"limitCredit" : 5000.00,
+        		"limitCredit" : NumberDecimal("5000.00"),
         		"movements" : [
         			{
         				"numberOperation" : "23658",
-        				"dateOperation" : "2023-01-15 19:22:05",
+        				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : 1000.00
+        				"mount" : NumberDecimal("1000.00")
         			}
         		],
-        		"dateCreation" : "2023-02-15 18:35:25",
+        		"dateCreation" : ISODate("2023-02-15T18:35:25"),
         		"sucursal" : {
         			"id" : "144",
         			"name" : "ucrcal Las Camelias",
@@ -113,7 +113,7 @@ db.client.insertMany([
         			"nameOperator" : "Patricio Franco Mena",
         			"nameManager" : "Susana Rios Torres"
         		},
-        		"balance" : 4000.00
+        		"balance" : NumberDecimal("4000.00")
         	}
         ]
 	}
@@ -146,24 +146,24 @@ db.client.insertMany([
         		"movements" : [
         			{
         				"numberOperation" : "19515",
-        				"dateOperation" : "2022-01-10 10:05:45",
+        				"dateOperation" : ISODate("2022-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 2000.00
+        				"mount" : NumberDecimal("2000.00")
         			},
         			{
         				"numberOperation" : "19516",
-        				"dateOperation" : "2022-12-10 10:05:45",
+        				"dateOperation" : ISODate("2022-12-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 500.00
+        				"mount" : NumberDecimal("500.00")
         			},
         			{
         				"numberOperation" : "19517",
-        				"dateOperation" : "2023-01-01 19:22:05",
+        				"dateOperation" : ISODate("2023-01-01T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : 100.00
+        				"mount" : NumberDecimal("100.00")
         			}
         		],
-        		"dateCreation" : "2024-01-15 18:35:25",
+        		"dateCreation" : ISODate("2024-01-15T18:35:25"),
         		"sucursal" : {
         			"_id" : "144",
         			"name" : "ucrcal Las Gardenias 66",
@@ -171,34 +171,34 @@ db.client.insertMany([
         			"nameOperator" : "Patricio Franco Mena",
         			"nameManager" : "Susana Rios Torres"
         		},
-        		"balance" : 2500.00
+        		"balance" : NumberDecimal("2500.00")
         	},
         	{
         		"type" : "Ahorro",
         		"card" : "4552758596322543",
         		"number" : "1992001451143",
-        		"comission" : 0,
+        		"comission" : NumberDecimal("0.0"),
         		"movements" : [
         			{
         				"numberOperation" : "11502",
-        				"dateOperation" : "2023-01-05 10:05:45",
+        				"dateOperation" : ISODate("2023-01-05T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 800.00
+        				"mount" : NumberDecimal("800.00")
         			},
         			{
         				"numberOperation" : "11503",
-        				"dateOperation" : "2023-01-10 10:05:45",
+        				"dateOperation" : ISODate("2023-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 400.00
+        				"mount" : NumberDecimal("400.00")
         			},
         			{
         				"numberOperation" : "11504",
-        				"dateOperation" : "2023-01-15 19:22:05",
+        				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "DEPOSITO",
-        				"mount" : 200.00
+        				"mount" : NumberDecimal("200.00")
         			}
         		],
-        		"dateCreation" : "2022-12-15 18:35:25",
+        		"dateCreation" : ISODate("2022-12-15T18:35:25"),
         		"sucursal" : {
         			"_id" : "144",
         			"name" : "cal Las Gardenias",
@@ -206,29 +206,29 @@ db.client.insertMany([
         			"nameOperator" : "Alejandro Brando Perez",
         			"nameManager" : "Carlos Barreda Torres"
         		},
-        		"balance" : 1400.00
+        		"balance" : NumberDecimal("1400.00")
         	}
         ],
         "credit" : [
         	{
         		"type" : "Personal",
         		"number" : "15484554177",
-        		"limitCredit" : 2000.00,
+        		"limitCredit" : NumberDecimal("2000.00"),
         		"movements" : [
         			{
         				"numberOperation" : "13252",
-        				"dateOperation" : "2023-01-15 19:22:05",
+        				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "CONSUMO",
-        				"mount" : 300.00
+        				"mount" : NumberDecimal("300.00")
         			},
         			{
         				"numberOperation" : "13253",
-        				"dateOperation" : "2023-01-15 19:22:05",
+        				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "CONSUMO",
-        				"mount" : 700.00
+        				"mount" : NumberDecimal("700.00")
         			}
         		],
-        		"dateCreation" : "2023-02-15 18:35:25",
+        		"dateCreation" : ISODate("2023-02-15T18:35:25"),
         		"sucursal" : {
         			"_id" : "144",
         			"name" : "ucrcal Las Camelias",
@@ -236,7 +236,7 @@ db.client.insertMany([
         			"nameOperator" : "Patricio Franco Mena",
         			"nameManager" : "Susana Rios Torres"
         		},
-        		"balance" : 1000.00
+        		"balance" : NumberDecimal("1000.00")
         	}
         ]
 	}
@@ -246,7 +246,7 @@ db.client.insertMany([
 	"dataCompany" : {
 		"ruc" : "10586325452",
 		"name" : "Compañia ACME 01",
-		"dateCreationCompany" : "2016-08-15"
+		"dateCreationCompany" : ISODate("2016-08-15T00:0000")
 	},
 	"email" : "compania.acme01@gmail.com",
 	"phono" : "968524201",
@@ -263,31 +263,31 @@ db.client.insertMany([
 				"type" : "Empresarial",
 				"card" : "3777548264581",
 				"number" : "15484554181",
-				"limitCredit" : 25000.00,
+				"limitCredit" : NumberDecimal("25000.00"),
 				"movements" : [
 					{
 						"numberOperation" : "17556",
-						"dateOperation" : "2023-01-15 19:22:05",
+						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : 300.00
+						"mount" : NumberDecimal("300.00")
 					},
 					{
 						"numberOperation" : "17557",
-						"dateOperation" : "2023-01-15 19:22:05",
+						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : 1000.00
+						"mount" : NumberDecimal("1000.00")
 					},
 					{
 						"numberOperation" : "17558",
-						"dateOperation" : "2023-01-15 19:22:05",
+						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : 500.00
+						"mount" : NumberDecimal("500.00")
 					},
 					{
 						"numberOperation" : "17559",
-						"dateOperation" : "2023-01-15 19:22:05",
+						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : 750.00
+						"mount" : NumberDecimal("750.00")
 					}
 				],
 				"company" : {
@@ -298,7 +298,7 @@ db.client.insertMany([
 							"name" : "Alexandra",
 							"lastFather" : "Merino",
 							"lastMother" : "Alvarez",
-							"birthdate" : "1985-05-25"
+							"birthdate" : ISODate("1985-05-25T00:00:00")
 						},
 						{
 							"documentType" : "1",
@@ -306,7 +306,7 @@ db.client.insertMany([
 							"name" : "Pedro",
 							"lastFather" : "Veltran",
 							"lastMother" : "Torres",
-							"birthdate" : "1985-05-25"
+							"birthdate" : ISODate("1985-05-25T00:00:00")
 						}
 					],
 					"autorizedSignatory" : [
@@ -316,11 +316,11 @@ db.client.insertMany([
 							"name" : "Alexandra",
 							"lastFather" : "Merino",
 							"lastMother" : "Alvarez",
-							"birthdate" : "1985-05-25"
+							"birthdate" : ISODate("1985-05-25T00:00:00")
 						}
 					]
 				},
-				"dateCreation" : "2023-02-15 18:35:25",
+				"dateCreation" : ISODate("2023-02-15T18:35:25"),
 				"sucursal" : {
 					"_id" : "144",
 					"name" : "ucrcal Las Camelias",
@@ -328,10 +328,10 @@ db.client.insertMany([
 					"nameOperator" : "Patricio Franco Mena",
 					"nameManager" : "Susana Rios Torres"
 				},
-				"balance" : 22450.00
+				"balance" : NumberDecimal("22450.00")
 			}
 		]
 	}
 
-}    
+}
 ])
