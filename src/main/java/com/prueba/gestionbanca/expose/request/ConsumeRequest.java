@@ -18,8 +18,6 @@ public class ConsumeRequest {
 
   private static final long serialVersionUID = 1L;
 
-  private String creditType;
-
   private String card;
 
   private BigDecimal mountConsume;

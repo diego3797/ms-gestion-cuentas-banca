@@ -3,7 +3,7 @@ package com.prueba.gestionbanca.expose;
 import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
 import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
 import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
-import com.prueba.gestionbanca.service.ClientService;
+import com.prueba.gestionbanca.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -13,10 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -39,7 +40,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductController {
   @Autowired
-  private ClientService clientService;
+  private ProductService prodService;
 
   /**
    * .
@@ -67,17 +68,18 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "product not found")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/balance/{numberDocument}",
+  @GetMapping(
+          value =  "/balance/{numberDocument}",
           produces = { "application/json", "application/xml" }
   )
-  public ResponseEntity<Mono<ProductBalanceResponse>> getAllProduct(
+  public Mono<ResponseEntity<ProductBalanceResponse>> getAllProduct(
           @Parameter(name = "numberDocument",
                   description = "number document of client", required = true, in = ParameterIn.PATH)
           @PathVariable("numberDocument") String numberDocument
   ) {
-    return null;
+    return prodService.findProductByDocumentNumber(numberDocument)
+            .map(ResponseEntity::ok)
+            .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
 
@@ -107,18 +109,21 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "product not found")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/balance/{number}",
+  @GetMapping(
+          value =  "/balance/account/{number}",
           produces = { "application/json", "application/xml" }
   )
-  public ResponseEntity<Mono<BalanceAccountResponse>> getBalanceProduct(
+  public Mono<ResponseEntity<BalanceAccountResponse>> getBalanceProduct(
           @Parameter(name = "number",
                   description = "Account number or Credit number of product of client",
                   required = true, in = ParameterIn.PATH)
-          @PathVariable("number") String number
+          @PathVariable("number") final String number
   ) {
-    return null;
+
+    return prodService.findProducByNumber(number)
+              .map(ResponseEntity::ok)
+              .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
   }
 
 
@@ -148,18 +153,19 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "client not foundg")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/product/movements/{number}",
+  @GetMapping(
+          value = "/movements/{number}",
           produces = { "application/json", "application/xml" }
   )
-  public ResponseEntity<Mono<BalanceMovementsResponse>> getMovements(
+  public Mono<ResponseEntity<BalanceMovementsResponse>> getMovements(
           @Parameter(name = "number",
                   description = "Account number or Credit number of product of client",
                   required = true, in = ParameterIn.PATH)
           @PathVariable("number") String number
   ) {
-    return null;
+    return prodService.findMovementByNumberAccount(number)
+              .map(ResponseEntity::ok)
+              .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
 }
