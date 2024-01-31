@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
+ * .
  * <b>Class</b>: ClientService <br/>
  *
  * <u>Service Provider</u>: PruebaTest <br/>
@@ -21,14 +22,14 @@ import reactor.core.publisher.Mono;
  */
 public interface ClientService {
 
-    Mono<Client> addClient(ClientRequest client);
+  Mono<Client> addClient(ClientRequest client);
 
-    Mono<Client> findClientById(String id);
+  Mono<Client> findClientById(String id);
 
-    Flux<Client> findAll();
+  Flux<Client> findAll();
 
-    Mono<Client> update(ClientDto client);
+  Mono<Client> update(ClientDto client);
 
-    Mono<Void> delete(String id);
+  Mono<Void> delete(String id);
 
 }

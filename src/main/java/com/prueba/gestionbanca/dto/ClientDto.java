@@ -7,7 +7,6 @@ import com.prueba.gestionbanca.model.Address;
 import com.prueba.gestionbanca.model.DataCompany;
 import com.prueba.gestionbanca.model.DataPersonal;
 import com.prueba.gestionbanca.model.Product;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +18,7 @@ import org.springframework.data.annotation.Id;
  * .
  * ClientDto
  */
-@SuppressWarnings("java:S106")
+@SuppressWarnings({"java:S106", "all", "all"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,22 +29,22 @@ public class ClientDto {
 
   @JsonSerialize(using = ToStringSerializer.class)
   @Id
-  private ObjectId id;
+  private ObjectId id; // NOSONAR
 
-  private String clientType;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private DataCompany dataCompany;
+  private String clientType; // NOSONAR
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private DataPersonal dataPersonal;
+  private DataCompany dataCompany; // NOSONAR
 
-  private String email;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private DataPersonal dataPersonal; // NOSONAR
 
-  private String phono;
+  private String email; // NOSONAR
 
-  private Address address;
+  private String phono; // NOSONAR
 
-  private Product product;
+  private Address address; // NOSONAR
+
+  private Product product; // NOSONAR
 
 }

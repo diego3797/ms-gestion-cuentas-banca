@@ -20,10 +20,10 @@ import reactor.core.publisher.Mono;
  */
 public interface ProductService {
 
-    Mono<BalanceAccountResponse> findProducByNumber(String number);
+  Mono<BalanceAccountResponse> findProducByNumber(String number);
 
-    Mono<ProductBalanceResponse> findProductByDocumentNumber(String document);
+  Mono<ProductBalanceResponse> findProductByDocumentNumber(String document);
 
-    Mono<BalanceMovementsResponse> findMovementByNumberAccount(String number);
+  Mono<BalanceMovementsResponse> findMovementByNumberAccount(String number);
 
 }

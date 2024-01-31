@@ -1,5 +1,6 @@
 package com.prueba.gestionbanca.expose.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
@@ -26,6 +27,12 @@ public class ProductBalanceResponse  {
 
   @Valid
   private List<@Valid BalanceCreditResponse> credit;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal totalBalanceAccount;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal totalBalanceCredit;
 
   private BigDecimal totalBalance;
 

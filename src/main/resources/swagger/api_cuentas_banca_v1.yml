@@ -27,6 +27,11 @@ tags:
     externalDocs:
       description: Find out more
       url: http://swagger.io
+  - name: transfer
+    description: Everything about transfer operations accounts
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
   - name: credit
     description: Everything about clients credits operations
     externalDocs:
@@ -34,6 +39,11 @@ tags:
       url: http://swagger.io
   - name: product
     description: Everything about clients product querys
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: reports
+    description: Everything about reports of products from client
     externalDocs:
       description: Find out more
       url: http://swagger.io
@@ -228,6 +238,71 @@ paths:
         '405':
           description: Invalid input
 
+  /transfer/toSelfAccount:
+    put:
+      tags:
+        - transfer
+      summary: transfer to your own account
+      description: transfer to your own account
+      operationId: registerTransftoAccountSelf
+      requestBody:
+        description: transfer to your own account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferOperationResponse'
+        '405':
+          description: Invalid input
+  /transfer/toAccountThird:
+    put:
+      tags:
+        - transfer
+      summary: transfer to the account of a third party
+      description: transfer to the account of a third party
+      operationId: registerTransftoAccountTercery
+      requestBody:
+        description: transfer to the account of a third party
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferTerceryOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferTerceryOperationResponse'
+        '405':
+          description: Invalid input
+
   /credit/pay:
     put:
       tags:
@@ -376,7 +451,50 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: client not foundg
+          description: client not found
+
+  /report/balanceAllProduct/{numberDocument}:
+    get:
+      tags:
+        - reports
+      summary: Gets report the balance of all products from client
+      description: Gets report the balance of all products from client
+      operationId: getReportBalanceProducts
+      parameters:
+        - name: numberDocument
+          in: path
+          description: client document number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
+  /report/commissionbyProduct/{numberDocument}:
+    get:
+      tags:
+        - reports
+      summary: Gets report commission by products from client
+      description: Gets report commission by products from client
+      operationId: getReportCommisionByProduct
+      parameters:
+        - name: numberDocument
+          in: path
+          description: client document number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
 
 components:
   schemas:
@@ -752,6 +870,75 @@ components:
         - typeAccount
         - numberAccount
         - mount
+
+    TransferRequest:
+      type: object
+      properties:
+        numberAccountFrom:
+          type: string
+          example: "15484554142"
+        numberAccountDestiny:
+          type: string
+          example: "15484554143"
+        mount:
+          type: number
+          example: 120.00
+      xml:
+        name: transferRequest
+      required:
+        - mount
+    TransferOperationResponse:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeAccountFrom:
+          type: string
+          example: "Personal"
+        numberAccountFrom:
+          type: string
+          example: "15484554143"
+        typeAccountDestiny:
+          type: string
+          example: "Cta Corriente"
+        numberAccountDestiny:
+          type: string
+          example: "15484554144"
+        mountTransfer:
+          type: number
+          example: 120.00
+      xml:
+        name: transferOperationResponse
+    TransferTerceryOperationResponse:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeAccountFrom:
+          type: string
+          example: "Personal"
+        numberAccountFrom:
+          type: string
+          example: "15484554143"
+        typeAccountDestiny:
+          type: string
+          example: "Cta Corriente"
+        numberAccountDestiny:
+          type: string
+          example: "15484554144"
+        numberDocumentThird:
+          type: string
+          example: "45876963"
+        nameThird:
+          type: string
+          example: "Adolfo Carrion Santos"
+        mountTransfer:
+          type: number
+          example: 120.00
+      xml:
+        name: transferTerceryOperationResponse
 
     CreditRequest:
       type: object

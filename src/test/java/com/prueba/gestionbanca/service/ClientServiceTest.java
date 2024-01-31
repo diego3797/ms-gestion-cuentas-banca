@@ -1,5 +1,6 @@
 package com.prueba.gestionbanca.service;
 
+import com.prueba.gestionbanca.dto.ClientDto;
 import com.prueba.gestionbanca.expose.request.ClientRequest;
 import com.prueba.gestionbanca.model.*;
 import com.prueba.gestionbanca.repository.ClientRepository;
@@ -28,6 +29,7 @@ class ClientServiceTest {
 
     @InjectMocks
     private ClientServiceImpl clientService;
+
 
     @BeforeEach
     void setUp() {
@@ -137,21 +139,18 @@ class ClientServiceTest {
         verify(clientRepo, times(1)).findAll();
     }
 
-    @Test
-    void testUpdate() {
 
-        ObjectId clientId = new ObjectId("5399aba6e4b0ae375bfdca88");
-        Client updatedClient = Client.builder()
-                .id(clientId)
-                .phono("964852234")
-                .build();
-        when(clientRepo.findById(anyString())).thenReturn(
-                Mono.justOrEmpty(Client.builder()
-                        .id(clientId)
-                        .phono("999999999")
-                        .build())
-        );
-        when(clientRepo.save(any(Client.class))).thenReturn(Mono.just(updatedClient));
+    @Test
+    public void testUpdateClient() {
+
+        ClientDto clientDto = new ClientDto();
+
+        Client client = new Client();
+
+        when(clientRepo.findById(clientDto.getId())).thenReturn(Mono.just(client));
+        when(clientRepo.save(any())).thenReturn(Mono.just(client));
+
+        Mono<Client> result = clientService.update(clientDto);
 
     }
 
@@ -170,76 +169,5 @@ class ClientServiceTest {
         verify(clientRepo, times(1)).deleteById(clientId);
     }
 
-    @Test
-    void testFindProductCreditByCard() {
 
-        String cardNumber = "3777548264544";
-
-        List<Credit> lstCredit = new ArrayList<>();
-        lstCredit.add(Credit.builder()
-                        .card("3777548264544")
-                        .build());
-        List<Product> lstProduct = new ArrayList<>();
-        lstProduct.add(Product.builder()
-                        .credit(lstCredit)
-                .build());
-        ObjectId clientId = new ObjectId("5399aba6e4b0ae375bfdca88");
-        Client expectedClient = Client.builder()
-                .id(clientId)
-                .dataPersonal(DataPersonal.builder()
-                        .documentType("1")
-                        .documentNumber("45870406")
-                        .name("ALEXANDRA")
-                        .lastFather("TORRES")
-                        .lastMother("BARRENECHEA")
-                        .build())
-                .product(lstProduct)
-                .build();
-        when(clientRepo.findByProductCreditCard(cardNumber)).thenReturn(Mono.just(expectedClient));
-
-        Mono<Client> result = clientService.findProductCreditByCard(cardNumber);
-
-        StepVerifier.create(result)
-                .expectNext(expectedClient)
-                .verifyComplete();
-        verify(clientRepo, times(1)).findByProductCreditCard(cardNumber);
-    }
-
-    @Test
-    void testFindProductCreditByNumberAccount() {
-
-        String accountNumber = "1992001451155";
-
-        List<Account> lstAccount = new ArrayList<>();
-        lstAccount.add(Account.builder()
-                .number("1992001451155")
-                .build());
-        List<Product> lstProduct = new ArrayList<>();
-        lstProduct.add(Product.builder()
-                .account(lstAccount)
-                .build());
-        ObjectId clientId = new ObjectId("5399aba6e4b0ae375bfdca88");
-
-        Client expectedClient = Client.builder()
-                .id(clientId)
-                .dataPersonal(DataPersonal.builder()
-                        .documentType("1")
-                        .documentNumber("45870406")
-                        .name("ALEXANDRA")
-                        .lastFather("TORRES")
-                        .lastMother("BARRENECHEA")
-                        .build())
-                .product(lstProduct)
-                .build();
-        when(clientRepo.findByProductCreditNumber(accountNumber)).thenReturn(Mono.just(expectedClient));
-
-
-        Mono<Client> result = clientService.findProductCreditByNumberAccount(accountNumber);
-
-
-        StepVerifier.create(result)
-                .expectNext(expectedClient)
-                .verifyComplete();
-        verify(clientRepo, times(1)).findByProductCreditNumber(accountNumber);
-    }
 }

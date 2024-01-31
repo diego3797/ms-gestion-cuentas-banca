@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -68,20 +68,18 @@ public class CreditController {
                 @ApiResponse(responseCode = "405", description = "Invalid input")
             }
     )
-  @RequestMapping(
-          method = RequestMethod.PUT,
-          value = "/consume",
+  @PutMapping(value = "/consume",
           produces = { "application/json", "application/xml" },
-          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
-  )
-  public ResponseEntity<Mono<CreditOperationResponse>> registerConsume(
+          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" })
+  public Mono<ResponseEntity<CreditOperationResponse>> registerConsume(
           @Parameter(name = "ConsumeRequest",
                   description = "Make consume of credit", required = true)
           @Valid @RequestBody CreditRequest consumeRequest
   ) {
-    return new ResponseEntity<Mono<CreditOperationResponse>>(
-              creditService.registerMovementCredit(consumeRequest, Constante.CONSUMO_CREDIT),
-            HttpStatus.OK);
+    return creditService.registerMovementCredit(consumeRequest, Constante.CONSUMO_CREDIT)
+              .map(creditOperationResponse -> ResponseEntity.status(HttpStatus.OK)
+                                                    .body(creditOperationResponse))
+              .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
 
@@ -109,18 +107,18 @@ public class CreditController {
               @ApiResponse(responseCode = "405", description = "Invalid input")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.PUT,
-          value = "/pay",
+  @PutMapping(value = "/pay",
           produces = { "application/json", "application/xml" },
-          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
-  )
-  public ResponseEntity<Mono<CreditOperationResponse>> registerPay(
+          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" })
+  public Mono<ResponseEntity<CreditOperationResponse>> registerPay(
           @Parameter(name = "PayRequest", description = "Make pay of credit", required = true)
           @Valid @RequestBody CreditRequest payRequest
   ) {
-    return new ResponseEntity<Mono<CreditOperationResponse>>(
-            creditService.registerMovementCredit(payRequest, Constante.PAGO_CREDIT), HttpStatus.OK);
+    return creditService.registerMovementCredit(payRequest, Constante.PAGO_CREDIT)
+              .map(creditOperationResponse -> ResponseEntity.status(HttpStatus.OK)
+                      .body(creditOperationResponse))
+              .defaultIfEmpty(ResponseEntity.notFound().build());
   }
+
 
 }

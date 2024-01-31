@@ -97,8 +97,7 @@ public class CreditServiceImpl implements CreditService {
                          .stream()
                          .flatMap(ac -> ac.getMovements().stream())
                          .filter(mov -> mov.getOperationType().equals(EnumOperationType.PAGO_MINIMO)
-                                     || mov.getOperationType().equals(EnumOperationType.PAGO_TOTAL)
-                                     || mov.getOperationType().equals(EnumOperationType.ABONO))
+                                     || mov.getOperationType().equals(EnumOperationType.PAGO_TOTAL))
                          .map(Movements::getMount)
                          .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -140,15 +139,21 @@ public class CreditServiceImpl implements CreditService {
 
   private boolean validMountOperation(String card, String operation, BigDecimal mountNew) {
 
-    BigDecimal balance = getCreditbyNumber(card).block().getProduct().getCredit()
+    BigDecimal balance = getCreditbyNumber(card).block()
+            .getProduct()
+            .getCredit()
             .stream()
             .map(Credit::getBalance)
-            .findFirst().get();
+            .findFirst()
+            .orElse(BigDecimal.ZERO);
 
-    BigDecimal limitCredit = getCreditbyNumber(card).block().getProduct().getCredit()
+    BigDecimal limitCredit = getCreditbyNumber(card).block()
+             .getProduct()
+             .getCredit()
              .stream()
              .map(Credit::getLimitCredit)
-             .findFirst().get();
+             .findFirst()
+             .orElse(BigDecimal.ZERO);
 
     boolean response;
     if (operation.equals(Constante.PAGO_CREDIT)) {

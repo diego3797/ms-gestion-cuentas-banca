@@ -3,7 +3,6 @@ package com.prueba.gestionbanca.expose;
 import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
 import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
 import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
-import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -69,9 +68,8 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "product not found")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/balance/{numberDocument}",
+  @GetMapping(
+          value =  "/balance/{numberDocument}",
           produces = { "application/json", "application/xml" }
   )
   public Mono<ResponseEntity<ProductBalanceResponse>> getAllProduct(
@@ -111,9 +109,8 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "product not found")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/balance/account/{number}",
+  @GetMapping(
+          value =  "/balance/account/{number}",
           produces = { "application/json", "application/xml" }
   )
   public Mono<ResponseEntity<BalanceAccountResponse>> getBalanceProduct(
@@ -156,8 +153,7 @@ public class ProductController {
               @ApiResponse(responseCode = "404", description = "client not foundg")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
+  @GetMapping(
           value = "/movements/{number}",
           produces = { "application/json", "application/xml" }
   )
@@ -167,7 +163,7 @@ public class ProductController {
                   required = true, in = ParameterIn.PATH)
           @PathVariable("number") String number
   ) {
-      return prodService.findMovementByNumberAccount(number)
+    return prodService.findMovementByNumberAccount(number)
               .map(ResponseEntity::ok)
               .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }

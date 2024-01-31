@@ -1,35 +1,38 @@
 package com.prueba.gestionbanca.expose.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import java.math.BigDecimal;
+
 /**
  * .
- * PayRequest
+ * DepositRequest
  */
 @SuppressWarnings("unchecked")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreditRequest {
+public class TransferRequest {
 
   private static final long serialVersionUID = 1L;
 
-  private String card;
+  @Valid
+  private String numberAccountFrom;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String payType;
+  private String numberDocumentTercery;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
+  private String numberAccountDestiny;
+
+  @Valid
   private BigDecimal mount;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private BigDecimal mountConsume;
 
 }
 
