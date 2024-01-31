@@ -1,7 +1,9 @@
 package com.prueba.gestionbanca.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prueba.gestionbanca.util.EnumOperationType;
 import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,19 @@ public class Movements {
 
   private String numberOperation;
 
-  private String dateOperation;
+  private Date dateOperation;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String numberAccountDestiny;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String numberAccountFrom;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String nameTerceryAccount;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String numberDocumentTerceryAccount;
 
   private EnumOperationType operationType;
 

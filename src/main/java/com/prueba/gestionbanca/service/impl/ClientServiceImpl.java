@@ -136,24 +136,4 @@ public class ClientServiceImpl implements ClientService {
     return clientRepo.deleteById(id);
   }
 
-  /**
-   * a.
-   *
-   * @param number a.
-   * @return Client
-   */
-  public Mono<Client> findProductCreditByCard(final String number) {
-    return clientRepo.findByProductCreditCard(number);
-  }
-
-
-  /**
-   * a.
-   *
-   * @param number a.
-   * @return Client
-   */
-  public Mono<Client> findProductCreditByNumberAccount(final String number) {
-    return clientRepo.findByProductCreditNumber(number);
-  }
 }

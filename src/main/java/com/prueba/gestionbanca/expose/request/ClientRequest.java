@@ -5,8 +5,6 @@ import com.prueba.gestionbanca.model.Address;
 import com.prueba.gestionbanca.model.DataCompany;
 import com.prueba.gestionbanca.model.DataPersonal;
 import com.prueba.gestionbanca.model.Product;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,7 +44,7 @@ public class ClientRequest {
   private Address address;
 
   @Valid
-  private List<@Valid Product> product = new ArrayList<>();
+  private Product product;
 
 }
 

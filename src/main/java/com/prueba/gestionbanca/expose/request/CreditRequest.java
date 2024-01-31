@@ -1,8 +1,9 @@
 package com.prueba.gestionbanca.expose.request;
 
-import com.prueba.gestionbanca.util.EnumPayType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,17 +15,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PayRequest {
+@Builder
+public class CreditRequest {
 
   private static final long serialVersionUID = 1L;
 
-  private String creditType;
-
   private String card;
 
-  private EnumPayType payType;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String payType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal mount;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal mountConsume;
 
 }
 

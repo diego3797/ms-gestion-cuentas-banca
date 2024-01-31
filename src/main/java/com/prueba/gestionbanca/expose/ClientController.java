@@ -10,15 +10,18 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -57,7 +60,7 @@ public class ClientController {
             description = "Add a new client in the bank",
             tags = { "client" },
             responses = {
-              @ApiResponse(responseCode = "200", description = "Successful operation",
+              @ApiResponse(responseCode = "201", description = "Successful operation",
                             content = {
                               @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = Client.class)),
@@ -67,13 +70,13 @@ public class ClientController {
               @ApiResponse(responseCode = "405", description = "Invalid input")
             }
   )
-  @RequestMapping(
-          method = RequestMethod.POST,
+  @PostMapping(
           produces = { "application/json", "application/xml" },
           consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
   )
-  public ResponseEntity<Mono<Client>> addClient(@Valid @RequestBody ClientRequest clientRequest) {
-    return new ResponseEntity<Mono<Client>>(clientService.addClient(clientRequest), HttpStatus.OK);
+  public Mono<ResponseEntity<Client>> addClient(@Valid @RequestBody ClientRequest clientRequest) {
+    return clientService.addClient(clientRequest)
+              .map(client -> ResponseEntity.status(HttpStatus.CREATED).body(client));
   }
 
 
@@ -93,16 +96,15 @@ public class ClientController {
               @ApiResponse(responseCode = "400", description = "Invalid client value")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.DELETE,
-          value = "/{clientId}"
-  )
-  public void deleteClient(
+  @DeleteMapping("/{clientId}")
+  public Mono<ResponseEntity<Void>> deleteClient(
           @Parameter(name = "clientId", description = "Client id to delete",
                   required = true, in = ParameterIn.PATH)
           @PathVariable("clientId") String clientId
   ) {
-    clientService.delete(clientId).subscribe();
+    return clientService.delete(clientId)
+              .thenReturn(ResponseEntity.noContent().<Void>build())
+              .onErrorReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
   }
 
 
@@ -132,18 +134,17 @@ public class ClientController {
               @ApiResponse(responseCode = "404", description = "client not found")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
+  @GetMapping(
           value = "/{clientId}",
           produces = { "application/json", "application/xml" }
   )
-  public ResponseEntity<Mono<Client>> getClientById(
+  public Mono<ResponseEntity<Client>> getClientById(
           @Parameter(name = "clientId", description = "ID of client to return",
                   required = true, in = ParameterIn.PATH)
           @PathVariable("clientId") String clientId
   ) {
-    Mono<Client> findId = clientService.findClientById(clientId);
-    return new ResponseEntity<Mono<Client>>(findId, HttpStatus.OK);
+    return clientService.findClientById(clientId)
+              .map(client -> ResponseEntity.status(HttpStatus.OK).body(client));
   }
 
 
@@ -160,17 +161,12 @@ public class ClientController {
           description = "List all clients from bank",
           tags = { "client" },
           responses = {
-              @ApiResponse(responseCode = "200", description = "successful operation", content = {
-                  @Content(mediaType = "application/json",
-                          schema = @Schema(implementation = Map.class))
-              })
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                          content = @Content(mediaType = "application/json",
+                                  schema = @Schema(implementation = Client.class)))
           }
   )
-  @RequestMapping(
-          method = RequestMethod.GET,
-          value = "/list",
-          produces = { "application/json" }
-  )
+  @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
   public Flux<Client> getClients() {
     return clientService.findAll();
   }
@@ -200,17 +196,19 @@ public class ClientController {
               @ApiResponse(responseCode = "405", description = "Invalid input")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.PUT,
-          produces = { "application/json", "application/xml" },
-          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
+  @PutMapping(produces = { "application/json", "application/xml" },
+             consumes = { "application/json",
+                            "application/xml",
+                            "application/x-www-form-urlencoded"
+             }
   )
-  public ResponseEntity<Mono<Client>> updClient(
+  public Mono<ResponseEntity<Client>> updClient(
           @Parameter(name = "ClientRequest", description = "Update a client in the bank",
                   required = true)
           @Valid @RequestBody ClientDto clientRequest
   ) {
-    return new ResponseEntity<Mono<Client>>(clientService.update(clientRequest), HttpStatus.OK);
+    return clientService.update(clientRequest)
+              .map(client -> ResponseEntity.status(HttpStatus.OK).body(client));
   }
 
 }

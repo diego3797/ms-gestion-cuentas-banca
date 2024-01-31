@@ -1,8 +1,9 @@
 package com.prueba.gestionbanca.expose;
 
-import com.prueba.gestionbanca.expose.request.ConsumeRequest;
-import com.prueba.gestionbanca.expose.request.PayRequest;
+import com.prueba.gestionbanca.expose.request.CreditRequest;
 import com.prueba.gestionbanca.expose.response.CreditOperationResponse;
+import com.prueba.gestionbanca.service.CreditService;
+import com.prueba.gestionbanca.util.Constante;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -37,6 +40,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 public class CreditController {
+
+  @Autowired
+  private CreditService creditService;
 
   /**
   * .
@@ -62,18 +68,18 @@ public class CreditController {
                 @ApiResponse(responseCode = "405", description = "Invalid input")
             }
     )
-  @RequestMapping(
-          method = RequestMethod.POST,
-          value = "/consume",
+  @PutMapping(value = "/consume",
           produces = { "application/json", "application/xml" },
-          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
-  )
-  public ResponseEntity<Mono<CreditOperationResponse>> registerConsume(
+          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" })
+  public Mono<ResponseEntity<CreditOperationResponse>> registerConsume(
           @Parameter(name = "ConsumeRequest",
                   description = "Make consume of credit", required = true)
-          @Valid @RequestBody Mono<ConsumeRequest> consumeRequest
+          @Valid @RequestBody CreditRequest consumeRequest
   ) {
-    return null;
+    return creditService.registerMovementCredit(consumeRequest, Constante.CONSUMO_CREDIT)
+              .map(creditOperationResponse -> ResponseEntity.status(HttpStatus.OK)
+                                                    .body(creditOperationResponse))
+              .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 
 
@@ -101,17 +107,18 @@ public class CreditController {
               @ApiResponse(responseCode = "405", description = "Invalid input")
           }
   )
-  @RequestMapping(
-          method = RequestMethod.POST,
-          value = "/pay",
+  @PutMapping(value = "/pay",
           produces = { "application/json", "application/xml" },
-          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }
-  )
-  public ResponseEntity<Mono<CreditOperationResponse>> registerPay(
+          consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" })
+  public Mono<ResponseEntity<CreditOperationResponse>> registerPay(
           @Parameter(name = "PayRequest", description = "Make pay of credit", required = true)
-          @Valid @RequestBody Mono<PayRequest> payRequest
+          @Valid @RequestBody CreditRequest payRequest
   ) {
-    return null;
+    return creditService.registerMovementCredit(payRequest, Constante.PAGO_CREDIT)
+              .map(creditOperationResponse -> ResponseEntity.status(HttpStatus.OK)
+                      .body(creditOperationResponse))
+              .defaultIfEmpty(ResponseEntity.notFound().build());
   }
+
 
 }

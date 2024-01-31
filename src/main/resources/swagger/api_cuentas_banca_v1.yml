@@ -27,6 +27,11 @@ tags:
     externalDocs:
       description: Find out more
       url: http://swagger.io
+  - name: transfer
+    description: Everything about transfer operations accounts
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
   - name: credit
     description: Everything about clients credits operations
     externalDocs:
@@ -34,6 +39,11 @@ tags:
       url: http://swagger.io
   - name: product
     description: Everything about clients product querys
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: reports
+    description: Everything about reports of products from client
     externalDocs:
       description: Find out more
       url: http://swagger.io
@@ -164,7 +174,7 @@ paths:
                   format: int32
 
   /operation/deposit:
-    post:
+    put:
       tags:
         - operation
       summary: Make deposit to count
@@ -175,13 +185,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/DepositRequest'
+              $ref: '#/components/schemas/MovementRequest'
         required: true
       responses:
         '200':
@@ -196,7 +206,7 @@ paths:
         '405':
           description: Invalid input
   /operation/withdrawal:
-    post:
+    put:
       tags:
         - operation
       summary: Make withdrawal to count
@@ -207,13 +217,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/WithdrawalRequest'
+              $ref: '#/components/schemas/MovementRequest'
         required: true
       responses:
         '200':
@@ -228,8 +238,73 @@ paths:
         '405':
           description: Invalid input
 
+  /transfer/toSelfAccount:
+    put:
+      tags:
+        - transfer
+      summary: transfer to your own account
+      description: transfer to your own account
+      operationId: registerTransftoAccountSelf
+      requestBody:
+        description: transfer to your own account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferOperationResponse'
+        '405':
+          description: Invalid input
+  /transfer/toAccountThird:
+    put:
+      tags:
+        - transfer
+      summary: transfer to the account of a third party
+      description: transfer to the account of a third party
+      operationId: registerTransftoAccountTercery
+      requestBody:
+        description: transfer to the account of a third party
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferTerceryOperationResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransferTerceryOperationResponse'
+        '405':
+          description: Invalid input
+
   /credit/pay:
-    post:
+    put:
       tags:
         - credit
       summary: Make pay of credit
@@ -240,13 +315,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PayRequest'
+              $ref: '#/components/schemas/CreditRequest'
         required: true
       responses:
         '200':
@@ -261,7 +336,7 @@ paths:
         '405':
           description: Invalid input
   /credit/consume:
-    post:
+    put:
       tags:
         - credit
       summary: Make consume of credit
@@ -272,13 +347,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/xml:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsumeRequest'
+              $ref: '#/components/schemas/CreditRequest'
         required: true
       responses:
         '200':
@@ -293,7 +368,7 @@ paths:
         '405':
           description: Invalid input
 
-  /product/balance/{number}:
+  /product/balance/account/{number}:
     get:
       tags:
         - product
@@ -376,7 +451,50 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: client not foundg
+          description: client not found
+
+  /report/balanceAllProduct/{numberDocument}:
+    get:
+      tags:
+        - reports
+      summary: Gets report the balance of all products from client
+      description: Gets report the balance of all products from client
+      operationId: getReportBalanceProducts
+      parameters:
+        - name: numberDocument
+          in: path
+          description: client document number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
+  /report/commissionbyProduct/{numberDocument}:
+    get:
+      tags:
+        - reports
+      summary: Gets report commission by products from client
+      description: Gets report commission by products from client
+      operationId: getReportCommisionByProduct
+      parameters:
+        - name: numberDocument
+          in: path
+          description: client document number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
 
 components:
   schemas:
@@ -399,11 +517,7 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         product:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/Product'
       xml:
         name: client
       required:
@@ -434,11 +548,7 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         product:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/Product'
         ubigeo:
           $ref: '#/components/schemas/Ubigeo'
       xml:
@@ -745,12 +855,9 @@ components:
       xml:
         name: ubigeo
 
-    DepositRequest:
+    MovementRequest:
       type: object
       properties:
-        typeAccount:
-          type: string
-          example: "Personal"
         numberAccount:
           type: string
           example: "1992001451121"
@@ -763,42 +870,90 @@ components:
         - typeAccount
         - numberAccount
         - mount
-    WithdrawalRequest:
+
+    TransferRequest:
       type: object
       properties:
-        typeAccount:
+        numberAccountFrom:
           type: string
-          example: "Personal"
-        numberAccount:
+          example: "15484554142"
+        numberAccountDestiny:
           type: string
-          example: "1992001451121"
+          example: "15484554143"
         mount:
           type: number
-          example: 500.00
+          example: 120.00
       xml:
-        name: withdrawal
+        name: transferRequest
       required:
-        - typeAccount
-        - numberAccount
         - mount
-
-    PayRequest:
+    TransferOperationResponse:
       type: object
       properties:
-        creditType:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeAccountFrom:
           type: string
           example: "Personal"
+        numberAccountFrom:
+          type: string
+          example: "15484554143"
+        typeAccountDestiny:
+          type: string
+          example: "Cta Corriente"
+        numberAccountDestiny:
+          type: string
+          example: "15484554144"
+        mountTransfer:
+          type: number
+          example: 120.00
+      xml:
+        name: transferOperationResponse
+    TransferTerceryOperationResponse:
+      type: object
+      properties:
+        numberOperation:
+          type: string
+          example: "10225"
+        typeAccountFrom:
+          type: string
+          example: "Personal"
+        numberAccountFrom:
+          type: string
+          example: "15484554143"
+        typeAccountDestiny:
+          type: string
+          example: "Cta Corriente"
+        numberAccountDestiny:
+          type: string
+          example: "15484554144"
+        numberDocumentThird:
+          type: string
+          example: "45876963"
+        nameThird:
+          type: string
+          example: "Adolfo Carrion Santos"
+        mountTransfer:
+          type: number
+          example: 120.00
+      xml:
+        name: transferTerceryOperationResponse
+
+    CreditRequest:
+      type: object
+      properties:
         card:
           type: string
           example: "4552758596322526"
         payType:
           type: string
           description: "Pay type"
-          example: "Pago Minimo"
+          example: "1"
           enum:
-            - PAGO_MINIMO
-            - PAGO_TOTAL
-            - ABONO
+            - PAGO_MINIMO, 1
+            - PAGO_TOTAL, 2
+            - ABONO, 3
         mount:
           type: number
           example: 120.00
@@ -809,35 +964,17 @@ components:
         - card
         - payType
         - mount
-    ConsumeRequest:
-      type: object
-      properties:
-        creditType:
-          type: string
-          example: "Personal"
-        card:
-          type: string
-          example: "4552758596322526"
-        mountConsume:
-          type: number
-          example: 120.00
-      xml:
-        name: consume
-      required:
-        - creditType
-        - card
-        - mountConsume
 
     BalanceAccountResponse:
       type: object
       properties:
-        type:
+        typeAccount:
           type: string
           example: "Ahorro"
-        card:
+        numberCard:
           type: string
           example: "4552758596322526"
-        number:
+        numberAccount:
           type: string
           example: "1992001451121"
         balance:
