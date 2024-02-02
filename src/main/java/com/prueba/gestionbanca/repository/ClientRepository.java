@@ -27,16 +27,24 @@ public interface ClientRepository extends ReactiveMongoRepository<Client, Object
   @Query(value = "{ 'product.credit.card': ?0 }", fields = "{ 'product.credit.$': 1 }")
   Mono<Client> findCreditByNumber(String number);
 
-  @Query(value = "{ 'dataPersonal.documentNumber': ?0 }", fields = "{ _id: 0,"
-                                                      + " clientType: 0,\n"
-                                                      + " dataPersonal: 0,\n"
-                                                      + " email: 0,\n"
-                                                      + " phono: 0,\n"
-                                                      + " address: 0  }")
+  @Query(value = "{ $or : [{\"dataPersonal.documentNumber\" : ?0} , {\"dataCompany.ruc\" : ?0}] }",
+         fields = "{ _id: 0,"
+                + " dataPersonal: 0,\n"
+                + " dataCompany: 0,\n"
+                + " email: 0,\n"
+                + " phono: 0,\n"
+                + " address: 0  }")
   Mono<Client> findProductsByDocumentNumber(String document);
 
   @Query(value = "{ 'product.account.number': ?0 }")
   Mono<Client> findClientByNumberAccount(String number);
+
+  @Query(value = "{ 'product.account.number': ?0 }", fields = "{  clientType: 1,"
+                                                              + " profileType: 1,"
+                                                              + " dataPersonal: 1,"
+                                                              + " dataCompany: 1,"
+                                                              + "'product.account.$': 1 }")
+  Mono<Client> findAccountByNumberWithDataClient(String number);
 
 }
 

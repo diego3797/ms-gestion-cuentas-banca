@@ -34,5 +34,5 @@ public class TransferOperationResponse {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String nameThird;
 
-  private BigDecimal mountTransfer;
+  private BigDecimal amountTransfer;
 }

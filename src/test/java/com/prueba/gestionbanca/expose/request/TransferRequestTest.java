@@ -15,7 +15,7 @@ public class TransferRequestTest {
         assertNull(transferRequest.getNumberAccountFrom());
         assertNull(transferRequest.getNumberDocumentTercery());
         assertNull(transferRequest.getNumberAccountDestiny());
-        assertNull(transferRequest.getMount());
+        assertNull(transferRequest.getAmount());
     }
 
     @Test
@@ -30,6 +30,6 @@ public class TransferRequestTest {
         assertEquals(numberAccountFrom, transferRequest.getNumberAccountFrom());
         assertEquals(numberDocumentTercery, transferRequest.getNumberDocumentTercery());
         assertEquals(numberAccountDestiny, transferRequest.getNumberAccountDestiny());
-        assertEquals(mount, transferRequest.getMount());
+        assertEquals(mount, transferRequest.getAmount());
     }
 }

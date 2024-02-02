@@ -85,11 +85,11 @@ public class ReportController {
 
   /**
    * .
-   * GET /report/commissionbyProduct/{numberDocument} :
+   * GET /report/commissionbyProduct/{accountNumber} :
    * Gets report commission by products from client
    * Gets report commission by products from client
    *
-   * @param numberDocument number document of client (required)
+   * @param accountNumber number document of client (required)
    * @return successful operation (status code 200)
    *         or Invalid ID supplied (status code 400)
    *         or product not found (status code 404)
@@ -107,16 +107,22 @@ public class ReportController {
   )
   @RequestMapping(
           method = RequestMethod.GET,
-          value = "/commissionbyProduct/{numberDocument}",
+          value = "/commissionbyProduct/{accountNumber}",
           produces = { "application/json", "application/xml" }
   )
   public Mono<ResponseEntity<byte[]>> getReportCommisionByProduct(
           @Parameter(name = "numberDocument",
                      description = "number document of client",
                      required = true, in = ParameterIn.PATH)
-          @PathVariable("numberDocument") String numberDocument
-  ) {
-    return null;
+          @PathVariable("accountNumber") String accountNumber
+  ) throws IOException {
+    byte[] pdfBytes = reportService.generateReportTotalComissionByProducts(accountNumber);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.setContentDispositionFormData("filename", "reportComissionProduct.pdf");
+
+    return Mono.just(new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK));
   }
 
 }

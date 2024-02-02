@@ -20,4 +20,6 @@ public interface ReportService {
 
   byte[] generateReportBalanceProducts(String documentId) throws IOException;
 
+  byte[] generateReportTotalComissionByProducts(String accountNumber) throws IOException;
+
 }

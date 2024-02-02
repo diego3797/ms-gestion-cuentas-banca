@@ -21,7 +21,7 @@ public class MovementRequest {
 
   private String numberAccount;
 
-  private BigDecimal mount;
+  private BigDecimal amount;
 
 }
 

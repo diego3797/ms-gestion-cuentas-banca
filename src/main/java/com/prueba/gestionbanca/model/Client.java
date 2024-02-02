@@ -31,6 +31,8 @@ public class Client {
 
   private String clientType;
 
+  private String profileType;
+
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private DataCompany dataCompany;
 

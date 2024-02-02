@@ -368,6 +368,38 @@ paths:
         '405':
           description: Invalid input
 
+  /product/createAccount:
+    put:
+      tags:
+        - product
+      summary: Create account bank
+      description: Create account bank
+      operationId: registerAccount
+      requestBody:
+        description: Create account bank
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoAccountResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ProductoAccountResponse'
+        '405':
+          description: Invalid input
   /product/balance/account/{number}:
     get:
       tags:
@@ -474,7 +506,7 @@ paths:
           description: Invalid ID supplied
         '404':
           description: client not found
-  /report/commissionbyProduct/{numberDocument}:
+  /report/commissionbyProduct/{accountNumber}:
     get:
       tags:
         - reports
@@ -519,7 +551,7 @@ components:
         product:
           $ref: '#/components/schemas/Product'
       xml:
-        name: client
+        name: clientRequest
       required:
         - clientType
         - email
@@ -552,7 +584,7 @@ components:
         ubigeo:
           $ref: '#/components/schemas/Ubigeo'
       xml:
-        name: client
+        name: clientResponse
     DataPersonal:
       type: object
       properties:
@@ -656,15 +688,9 @@ components:
         number:
           type: string
           example: "1992001451121"
-        limitMovement:
-          type: number
-          example: 3
         dayMovement:
           type: number
           example: 15
-        comission:
-          type: number
-          example: 2.05
         movements:
           type: array
           xml:
@@ -786,14 +812,20 @@ components:
             - RETIRO
             - DEPOSITO
             - CONSUMO
-        mount:
+        comission:
+          type: number
+          example: 2.05
+        grossAmount:
           type: number
           example: 40.00
+        amount:
+          type: number
+          example: 2.05
       xml:
         name: movements
       required:
         - operationType
-        - mount
+        - amount
     Company:
       type: object
       properties:
@@ -861,15 +893,15 @@ components:
         numberAccount:
           type: string
           example: "1992001451121"
-        mount:
+        amount:
           type: number
           example: 45874.00
       xml:
-        name: deposit
+        name: movementRequest
       required:
         - typeAccount
         - numberAccount
-        - mount
+        - amount
 
     TransferRequest:
       type: object
@@ -880,13 +912,13 @@ components:
         numberAccountDestiny:
           type: string
           example: "15484554143"
-        mount:
+        amount:
           type: number
           example: 120.00
       xml:
         name: transferRequest
       required:
-        - mount
+        - amount
     TransferOperationResponse:
       type: object
       properties:
@@ -905,7 +937,7 @@ components:
         numberAccountDestiny:
           type: string
           example: "15484554144"
-        mountTransfer:
+        amountTransfer:
           type: number
           example: 120.00
       xml:
@@ -934,7 +966,7 @@ components:
         nameThird:
           type: string
           example: "Adolfo Carrion Santos"
-        mountTransfer:
+        amountTransfer:
           type: number
           example: 120.00
       xml:
@@ -954,16 +986,84 @@ components:
             - PAGO_MINIMO, 1
             - PAGO_TOTAL, 2
             - ABONO, 3
-        mount:
+        amount:
           type: number
           example: 120.00
       xml:
-        name: pay
+        name: creditRequest
       required:
         - creditType
         - card
         - payType
-        - mount
+        - amount
+
+    AccountRequest:
+      type: object
+      properties:
+        numberDocument:
+          type: string
+          example: "45692341"
+        clientType:
+          type: string
+          example: "Personal"
+        profileType:
+          type: string
+          example: "VIP"
+        accountType:
+          type: string
+          example: "Ahorro"
+        sucursal:
+          $ref: '#/components/schemas/Sucursal'
+        amount:
+          type: number
+          example: 120.00
+      xml:
+        name: accountRequest
+      required:
+        - numberDocument
+        - accountType
+        - profileType
+        - sucursal
+        - amount
+    ProductoAccountResponse:
+      type: object
+      properties:
+        clientType:
+          type: string
+          example: "Personal"
+        profileType:
+          type: string
+          example: "VIP"
+        dataCompany:
+          $ref: '#/components/schemas/DataCompany'
+        dataPersonal:
+          $ref: '#/components/schemas/DataPersonal'
+        product:
+          $ref: '#/components/schemas/AccountResponse'
+      xml:
+        name: productoAccountResponse
+    AccountResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Ahorro"
+        number:
+          type: string
+          example: "1992001451121"
+        movements:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Movements'
+        sucursal:
+          $ref: '#/components/schemas/Sucursal'
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: accountResponse
 
     BalanceAccountResponse:
       type: object
@@ -981,7 +1081,7 @@ components:
           type: number
           example: 3000.00
       xml:
-        name: balanceAccount
+        name: balanceAccountResponse
     BalanceCreditResponse:
       type: object
       properties:
@@ -1001,7 +1101,7 @@ components:
           type: number
           example: 3000.00
       xml:
-        name: balanceCredit
+        name: balanceCreditResponse
     ProductBalanceResponse:
       type: object
       properties:
@@ -1021,7 +1121,7 @@ components:
           type: number
           example: 3000.00
       xml:
-        name: productBalance
+        name: productBalanceResponse
     BalanceMovementsResponse:
       type: object
       properties:
@@ -1044,4 +1144,4 @@ components:
           type: number
           example: 3000.00
       xml:
-        name: balanceMovements
+        name: balanceMovementsResponse

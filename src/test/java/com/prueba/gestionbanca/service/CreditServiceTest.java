@@ -1,8 +1,5 @@
 package com.prueba.gestionbanca.service;
 
-import com.mongodb.client.result.UpdateResult;
-import com.prueba.gestionbanca.expose.request.CreditRequest;
-import com.prueba.gestionbanca.expose.response.CreditOperationResponse;
 import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.model.Movements;
 import com.prueba.gestionbanca.repository.ClientRepository;
@@ -20,24 +17,15 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import reactor.core.publisher.Mono;
-import java.math.BigDecimal;
+
 import java.util.Date;
-import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 public class CreditServiceTest {
 
@@ -68,7 +56,7 @@ public class CreditServiceTest {
                         .numberOperation("12345")
                         .dateOperation(new Date())
                         .operationType(EnumOperationType.PAGO_MINIMO)
-                        .mount(new BigDecimal(150.00))
+                        .amount(new BigDecimal(150.00))
                         .build());
 
         when(clientRepo.findCreditByNumber("3777548264544")).thenReturn(Mono.just(Client.builder()
