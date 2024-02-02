@@ -22,7 +22,7 @@ Contrato: api_cuentas_banca_v1.yml
       - Consulta de saldo de Cuenta de Ahorro o Credito
       - Consulta de saldo de todos los productos
       - Consulta de movimientos de un producto (cuenta de ahorro o credito)
-   - Reporte de todos los productos de un cliente
+   - Reporte de todos los productos de un cliente y Comisiones de por Producto
 5. Se implemento la revisiones de checkStyle y Sonarqube
 6. Se creo carpeta Data en la raiz con script de insercion de la coleccion cliente
 7. Se agrego la collection postman en la raiz, con las funcionalidades del CRUD para la coleccion cliente   
