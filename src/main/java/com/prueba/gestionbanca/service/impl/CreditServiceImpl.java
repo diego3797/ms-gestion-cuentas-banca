@@ -52,7 +52,7 @@ public class CreditServiceImpl implements CreditService {
   public Mono<CreditOperationResponse> registerMovementCredit(CreditRequest creditRequest,
                                                               String operacionCredit) {
 
-    String numOperation = String.valueOf(Utils.generateNumber());
+    String numOperation = String.valueOf(Utils.generateNumberOperation());
 
     Query query = new Query(Criteria.where("product.credit.card").is(creditRequest.getCard()));
 
@@ -60,17 +60,17 @@ public class CreditServiceImpl implements CreditService {
     BigDecimal amount;
     if (operacionCredit.equals(Constante.PAGO_CREDIT)) {
       enumOpe = EnumOperationType.getByCode(Integer.parseInt(creditRequest.getPayType()));
-      amount = creditRequest.getMount();
+      amount = creditRequest.getAmount();
     } else {
       enumOpe = EnumOperationType.CONSUMO;
-      amount = creditRequest.getMountConsume();
+      amount = creditRequest.getAmountConsume();
     }
 
     Update update = new Update().push("product.credit.$.movements", Movements.builder()
                                                                   .numberOperation(numOperation)
                                                                   .dateOperation(new Date())
                                                                   .operationType(enumOpe)
-                                                                  .mount(amount)
+                                                                  .amount(amount)
                                                                   .build());
 
     if (!validMountOperation(creditRequest.getCard(), operacionCredit, amount)) {
@@ -98,14 +98,14 @@ public class CreditServiceImpl implements CreditService {
                          .flatMap(ac -> ac.getMovements().stream())
                          .filter(mov -> mov.getOperationType().equals(EnumOperationType.PAGO_MINIMO)
                                      || mov.getOperationType().equals(EnumOperationType.PAGO_TOTAL))
-                         .map(Movements::getMount)
+                         .map(Movements::getAmount)
                          .reduce(BigDecimal.ZERO, BigDecimal::add);
 
                  BigDecimal totalBalanceConsume = x.getProduct().getCredit()
                            .stream()
                            .flatMap(ac -> ac.getMovements().stream())
                            .filter(mov -> mov.getOperationType().equals(EnumOperationType.CONSUMO))
-                           .map(Movements::getMount)
+                           .map(Movements::getAmount)
                            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
                  BigDecimal limit = x.getProduct().getCredit()

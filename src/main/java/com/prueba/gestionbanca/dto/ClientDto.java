@@ -31,6 +31,8 @@ public class ClientDto {
   @Id
   private ObjectId id; // NOSONAR
 
+  private String profileType; // NOSONAR
+
   private String clientType; // NOSONAR
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

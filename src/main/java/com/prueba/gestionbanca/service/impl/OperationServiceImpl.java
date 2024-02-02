@@ -7,11 +7,13 @@ import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.model.Movements;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.OperationService;
+import com.prueba.gestionbanca.util.Constante;
 import com.prueba.gestionbanca.util.EnumOperationType;
-import com.prueba.gestionbanca.util.EnumTransferType;
 import com.prueba.gestionbanca.util.Utils;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -55,6 +57,7 @@ public class OperationServiceImpl implements OperationService {
   * @param operationType a.
   * @return addMovementToAccount
   */
+  @SuppressWarnings("checkstyle:Indentation")
   @Override
   public Mono<AccountOperationResponse> registerMovementAccount(MovementRequest depositRequest,
                                                                 EnumOperationType operationType) {
@@ -62,24 +65,51 @@ public class OperationServiceImpl implements OperationService {
     BigDecimal mountOperation;
     if (operationType.equals(EnumOperationType.DEPOSITO)) {
       operation = EnumOperationType.DEPOSITO;
-      mountOperation = depositRequest.getMount();
+      mountOperation = depositRequest.getAmount();
     } else {
       operation = EnumOperationType.RETIRO;
-      mountOperation = depositRequest.getMount().negate();
+      mountOperation = depositRequest.getAmount().negate();
     }
 
-    String numOperation = String.valueOf(Utils.generateNumber());
 
-    Query query = new Query(Criteria.where("product.account.number")
-            .is(depositRequest.getNumberAccount()));
-    Update update = new Update().push("product.account.$.movements",
-            Movements.builder()
+    String numOperation = String.valueOf(Utils.generateNumberOperation());
+
+    Movements mevement = Movements.builder()
+                        .numberOperation(numOperation)
+                        .dateOperation(new Date())
+                        .operationType(operation)
+                        .amount(mountOperation)
+                        .build();
+
+    long numberOperations = Objects.requireNonNull(
+                            clientRepo.findAccountByNumber(depositRequest.getNumberAccount())
+                                                    .block())
+                                                    .getProduct().getAccount().stream()
+                                                    .flatMap(account -> account.getMovements().stream())
+                                                    .count();
+    boolean existComision;
+    BigDecimal amountNet = BigDecimal.ZERO;
+    if (numberOperations >= Constante.MAX_TRANSACTION) {
+        existComision = true;
+
+        amountNet = mountOperation.subtract(Constante.COMISSION).setScale(2, RoundingMode.UP);
+
+        mevement = Movements.builder()
                 .numberOperation(numOperation)
                 .dateOperation(new Date())
                 .operationType(operation)
-                .mount(mountOperation)
-                .build());
+                .comission(Constante.COMISSION)
+                .grossAmount(mountOperation)
+                .amount(amountNet)
+                .build();
+    } else {
+        existComision = false;
+    }
 
+
+    Query query = new Query(Criteria.where("product.account.number")
+            .is(depositRequest.getNumberAccount()));
+    Update update = new Update().push("product.account.$.movements", mevement);
     mongoTemplate.updateFirst(query, update, Client.class).subscribe();
 
 
@@ -102,23 +132,39 @@ public class OperationServiceImpl implements OperationService {
                                               EnumOperationType.DEPOSITO_TRANSF_PROPIA)
                                       || mov.getOperationType().equals(
                                               EnumOperationType.DEPOSITO_TRANSF_TERCERO))
-                          .map(Movements::getMount)
+                          .map(Movements::getAmount)
                           .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
                 if (operation.equals(EnumOperationType.RETIRO)) {
-                  totalBalance = totalBalance.subtract(depositRequest.getMount());
+                  totalBalance = totalBalance.subtract(depositRequest.getAmount());
                 }
 
                 updateBalanceAccount(depositRequest.getNumberAccount(), totalBalance);
 
-                return Mono.just(AccountOperationResponse.builder()
+                AccountOperationResponse accountOpeReponse = AccountOperationResponse.builder()
                         .numberOperation(numOperation)
                         .typeAccount(account.get().getType())
                         .card(account.get().getCard())
                         .number(account.get().getNumber())
-                        .balance(totalBalance)
-                        .build());
+                        .amount(depositRequest.getAmount())
+                        .balanceTotal(totalBalance)
+                        .build();
+                if (existComision) {
+                    accountOpeReponse = AccountOperationResponse.builder()
+                            .numberOperation(numOperation)
+                            .typeAccount(account.get().getType())
+                            .card(account.get().getCard())
+                            .number(account.get().getNumber())
+                            .comision(Constante.COMISSION)
+                            .grossAmount(depositRequest.getAmount())
+                            .amount(mountOperation.subtract(Constante.COMISSION)
+                                    .setScale(2, RoundingMode.UP))
+                            .balanceTotal(totalBalance)
+                            .build();
+                }
+
+                return Mono.just(accountOpeReponse);
               });
 
 
@@ -133,7 +179,7 @@ public class OperationServiceImpl implements OperationService {
   @SuppressWarnings("checkstyle:Indentation")
   public void updateBalanceAccount(String numberAccount, BigDecimal totalBalance) {
       Query query = new Query(Criteria.where("product.account.number").is(numberAccount));
-      Update update = new Update().set("product.account.$[].balance", totalBalance);
+      Update update = new Update().set("product.account.$.balance", totalBalance);
       mongoTemplate.updateFirst(query, update, Client.class).subscribe();
   }
 

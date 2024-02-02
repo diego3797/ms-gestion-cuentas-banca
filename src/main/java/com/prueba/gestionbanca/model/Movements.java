@@ -41,7 +41,17 @@ public class Movements {
 
   private EnumOperationType operationType;
 
-  private BigDecimal mount;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal comission;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal grossAmount;
+
+  private BigDecimal amount;
+
+
+
+
 
 
 }

@@ -1,6 +1,7 @@
 db.client.insertMany([
 {
 	"clientType" : "Personal",
+	"profileType" : "Normal",
 	"dataPersonal" : {
 		"documentType" : "1",
 		"documentNumber" : "45859966",
@@ -24,25 +25,24 @@ db.client.insertMany([
         		"type" : "Ahorro",
         		"card" : "552758596322555",
         		"number" : "1992001451155",
-        		"limitovement" : 3,
         		"movements" : [
         			{
         				"numberOperation" : "12581",
         				"dateOperation" : ISODate("2022-01-20T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("100.00")
+        				"amount" : NumberDecimal("100.00")
         			},
         			{
         				"numberOperation" : "12582",
         				"dateOperation" : ISODate("2022-12-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("1500.00")
+        				"amount" : NumberDecimal("1500.00")
         			},
         			{
         				"numberOperation" : "12583",
         				"dateOperation" : ISODate("2023-01-01T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : NumberDecimal("200.00")
+        				"amount" : NumberDecimal("-200.00")
         			}
         		],
         		"dateCreation" : ISODate("2021-11-15T18:35:25"),
@@ -53,31 +53,30 @@ db.client.insertMany([
         			"nameOperator" : "Patricio Franco Mena",
         			"nameManager" : "Susana Rios Torres"
         		},
-        		"balance" : NumberDecimal("1000.00")
+        		"balance" : NumberDecimal("1600.00")
         	},
         	{
         		"type" : "Cta Corriente",
         		"card" : "4552758596322556",
         		"number" : "1992001451156",
-        		"comission" : NumberDecimal("0.75"),
         		"movements" : [
         			{
         				"numberOperation" : "19685",
         				"dateOperation" : ISODate("2023-01-05T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("800.00")
+        				"amount" : NumberDecimal("800.00")
         			},
         			{
         				"numberOperation" : "19686",
         				"dateOperation" : ISODate("2023-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("400.00")
+        				"amount" : NumberDecimal("400.00")
         			},
         			{
         				"numberOperation" : "19687",
         				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : NumberDecimal("200.00")
+        				"amount" : NumberDecimal("-200.00")
         			}
         		],
         		"dateCreation" : ISODate("2022-12-15T18:35:25"),
@@ -101,8 +100,8 @@ db.client.insertMany([
         			{
         				"numberOperation" : "23658",
         				"dateOperation" : ISODate("2023-01-15T19:22:05"),
-        				"operationType" : "RETIRO",
-        				"mount" : NumberDecimal("1000.00")
+        				"operationType" : "CONSUMO",
+        				"amount" : NumberDecimal("-1000.00")
         			}
         		],
         		"dateCreation" : ISODate("2023-02-15T18:35:25"),
@@ -120,9 +119,10 @@ db.client.insertMany([
 },
 {
 	"clientType" : "Personal",
+	"profileType" : "VIP",
 	"dataPersonal" : {
 		"documentType" : "1",
-		"documentNumber" : "45859966",
+		"documentNumber" : "45859977",
 		"name" : "Alexandra Paola",
 		"lastFather" : "Merino",
 		"lastMother" : "Alvarez"
@@ -148,19 +148,19 @@ db.client.insertMany([
         				"numberOperation" : "19515",
         				"dateOperation" : ISODate("2022-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("2000.00")
+        				"amount" : NumberDecimal("2000.00")
         			},
         			{
         				"numberOperation" : "19516",
         				"dateOperation" : ISODate("2022-12-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("500.00")
+        				"amount" : NumberDecimal("500.00")
         			},
         			{
         				"numberOperation" : "19517",
         				"dateOperation" : ISODate("2023-01-01T19:22:05"),
         				"operationType" : "RETIRO",
-        				"mount" : NumberDecimal("100.00")
+        				"amount" : NumberDecimal("-100.00")
         			}
         		],
         		"dateCreation" : ISODate("2024-01-15T18:35:25"),
@@ -177,25 +177,24 @@ db.client.insertMany([
         		"type" : "Ahorro",
         		"card" : "4552758596322543",
         		"number" : "1992001451143",
-        		"comission" : NumberDecimal("0.0"),
         		"movements" : [
         			{
         				"numberOperation" : "11502",
         				"dateOperation" : ISODate("2023-01-05T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("800.00")
+        				"amount" : NumberDecimal("800.00")
         			},
         			{
         				"numberOperation" : "11503",
         				"dateOperation" : ISODate("2023-01-10T10:05:45"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("400.00")
+        				"amount" : NumberDecimal("400.00")
         			},
         			{
         				"numberOperation" : "11504",
         				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "DEPOSITO",
-        				"mount" : NumberDecimal("200.00")
+        				"amount" : NumberDecimal("200.00")
         			}
         		],
         		"dateCreation" : ISODate("2022-12-15T18:35:25"),
@@ -219,13 +218,13 @@ db.client.insertMany([
         				"numberOperation" : "13252",
         				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "CONSUMO",
-        				"mount" : NumberDecimal("300.00")
+        				"amount" : NumberDecimal("-300.00")
         			},
         			{
         				"numberOperation" : "13253",
         				"dateOperation" : ISODate("2023-01-15T19:22:05"),
         				"operationType" : "CONSUMO",
-        				"mount" : NumberDecimal("700.00")
+        				"amount" : NumberDecimal("-700.00")
         			}
         		],
         		"dateCreation" : ISODate("2023-02-15T18:35:25"),
@@ -243,6 +242,7 @@ db.client.insertMany([
 },
 {
 	"clientType" : "Empresarial",
+	"profileType" : "PYME",
 	"dataCompany" : {
 		"ruc" : "10586325452",
 		"name" : "Compañia ACME 01",
@@ -269,32 +269,32 @@ db.client.insertMany([
 						"numberOperation" : "17556",
 						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : NumberDecimal("300.00")
+						"amount" : NumberDecimal("-300.00")
 					},
 					{
 						"numberOperation" : "17557",
 						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : NumberDecimal("1000.00")
+						"amount" : NumberDecimal("-1000.00")
 					},
 					{
 						"numberOperation" : "17558",
 						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : NumberDecimal("500.00")
+						"amount" : NumberDecimal("-500.00")
 					},
 					{
 						"numberOperation" : "17559",
 						"dateOperation" : ISODate("2023-01-15T19:22:05"),
 						"operationType" : "CONSUMO",
-						"mount" : NumberDecimal("750.00")
+						"amount" : NumberDecimal("-750.00")
 					}
 				],
 				"company" : {
 					"titular" : [
 						{
 							"documentType" : "1",
-							"documentNumber" : "45859966",
+							"documentNumber" : "45859988",
 							"name" : "Alexandra",
 							"lastFather" : "Merino",
 							"lastMother" : "Alvarez",
@@ -312,7 +312,7 @@ db.client.insertMany([
 					"autorizedSignatory" : [
 						{
 							"documentType" : "1",
-							"documentNumber" : "45859966",
+							"documentNumber" : "45859999",
 							"name" : "Alexandra",
 							"lastFather" : "Merino",
 							"lastMother" : "Alvarez",

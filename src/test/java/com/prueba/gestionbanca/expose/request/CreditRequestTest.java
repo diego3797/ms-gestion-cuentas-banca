@@ -14,8 +14,8 @@ public class CreditRequestTest {
         assertNotNull(creditRequest);
         assertNull(creditRequest.getCard());
         assertNull(creditRequest.getPayType());
-        assertNull(creditRequest.getMount());
-        assertNull(creditRequest.getMountConsume());
+        assertNull(creditRequest.getAmount());
+        assertNull(creditRequest.getAmountConsume());
     }
 
     @Test
@@ -29,8 +29,8 @@ public class CreditRequestTest {
         assertNotNull(creditRequest);
         assertEquals(card, creditRequest.getCard());
         assertEquals(payType, creditRequest.getPayType());
-        assertEquals(mount, creditRequest.getMount());
-        assertEquals(mountConsume, creditRequest.getMountConsume());
+        assertEquals(mount, creditRequest.getAmount());
+        assertEquals(mountConsume, creditRequest.getAmountConsume());
     }
 
 }

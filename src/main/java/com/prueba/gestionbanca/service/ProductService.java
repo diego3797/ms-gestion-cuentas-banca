@@ -1,8 +1,10 @@
 package com.prueba.gestionbanca.service;
 
+import com.prueba.gestionbanca.expose.request.AccountRequest;
 import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
 import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
 import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
+import com.prueba.gestionbanca.expose.response.ProductoAccountResponse;
 import reactor.core.publisher.Mono;
 
 /**
@@ -19,6 +21,8 @@ import reactor.core.publisher.Mono;
  * </ul>
  */
 public interface ProductService {
+
+  Mono<ProductoAccountResponse> registerProduct(AccountRequest number);
 
   Mono<BalanceAccountResponse> findProducByNumber(String number);
 

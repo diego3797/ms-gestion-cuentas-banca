@@ -12,7 +12,7 @@ public class MovementRequestTest {
         MovementRequest movementRequest = new MovementRequest();
         assertNotNull(movementRequest);
         assertNull(movementRequest.getNumberAccount());
-        assertNull(movementRequest.getMount());
+        assertNull(movementRequest.getAmount());
     }
 
     @Test
@@ -23,6 +23,6 @@ public class MovementRequestTest {
         MovementRequest movementRequest = new MovementRequest(numberAccount, mount);
         assertNotNull(movementRequest);
         assertEquals(numberAccount, movementRequest.getNumberAccount());
-        assertEquals(mount, movementRequest.getMount());
+        assertEquals(mount, movementRequest.getAmount());
     }
 }
