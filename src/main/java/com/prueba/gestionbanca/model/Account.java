@@ -24,12 +24,10 @@ public class Account {
 
   private String type;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String card;
 
   private String number;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private BigDecimal limitMovement;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal dayMovement;
@@ -37,9 +35,11 @@ public class Account {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal comission;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Valid
   private List<@Valid Movements> movements;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String dateCreation;
 
   private Sucursal sucursal;

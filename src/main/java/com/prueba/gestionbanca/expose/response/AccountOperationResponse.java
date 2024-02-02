@@ -1,6 +1,8 @@
 package com.prueba.gestionbanca.expose.response;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +27,14 @@ public class AccountOperationResponse {
 
   private String number;
 
-  private BigDecimal balance;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal comision;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal grossAmount;
+
+  private BigDecimal amount;
+
+  private BigDecimal balanceTotal;
+
 }

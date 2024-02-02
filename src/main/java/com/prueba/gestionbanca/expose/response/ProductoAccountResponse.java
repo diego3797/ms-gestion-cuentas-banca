@@ -1,36 +1,36 @@
-package com.prueba.gestionbanca.expose.request;
+package com.prueba.gestionbanca.expose.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prueba.gestionbanca.model.Address;
 import com.prueba.gestionbanca.model.DataCompany;
 import com.prueba.gestionbanca.model.DataPersonal;
 import com.prueba.gestionbanca.model.Product;
-import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * .
- * ClientRequest
+ * ProductBalanceResponse
  */
 @SuppressWarnings("unchecked")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Builder
-public class ClientRequest {
+public class ProductoAccountResponse {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String clientType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String profileType;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,14 +39,11 @@ public class ClientRequest {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private DataPersonal dataPersonal;
 
-  private String email;
-
-  private String phono;
-
-  private Address address;
-
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Product product;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String msg;
 
 }
 

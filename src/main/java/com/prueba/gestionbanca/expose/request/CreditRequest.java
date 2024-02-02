@@ -26,10 +26,10 @@ public class CreditRequest {
   private String payType;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private BigDecimal mount;
+  private BigDecimal amount;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private BigDecimal mountConsume;
+  private BigDecimal amountConsume;
 
 }
 

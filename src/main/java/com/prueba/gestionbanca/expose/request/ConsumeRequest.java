@@ -20,7 +20,7 @@ public class ConsumeRequest {
 
   private String card;
 
-  private BigDecimal mountConsume;
+  private BigDecimal amountConsume;
 
 }
 

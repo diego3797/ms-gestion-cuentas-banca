@@ -1,7 +1,6 @@
 package com.prueba.gestionbanca.service;
 
 import com.prueba.gestionbanca.expose.request.MovementRequest;
-import com.prueba.gestionbanca.expose.response.AccountOperationResponse;
 import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.model.Movements;
 import com.prueba.gestionbanca.repository.ClientRepository;
@@ -18,13 +17,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +46,7 @@ public class OperationServiceTest {
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
         MovementRequest depositRequest = MovementRequest.builder()
                 .numberAccount("1992001451155")
-                .mount(new BigDecimal(100.00))
+                .amount(new BigDecimal(100.00))
                 .build();
         EnumOperationType operation = EnumOperationType.DEPOSITO;
         Query query = new Query(Criteria.where("product.account.number")
@@ -60,7 +56,7 @@ public class OperationServiceTest {
                         .numberOperation("12345")
                         .dateOperation(new Date())
                         .operationType(operation)
-                        .mount(depositRequest.getMount())
+                        .amount(depositRequest.getAmount())
                         .build());
 
 
@@ -88,7 +84,7 @@ public class OperationServiceTest {
                         .numberOperation("12345")
                         .dateOperation(new Date())
                         .operationType(EnumOperationType.DEPOSITO)
-                        .mount(new BigDecimal(125.00))
+                        .amount(new BigDecimal(125.00))
                         .build());
         when(mongoTemplate.updateFirst(query, update, Client.class)).thenReturn(Mono.empty());
 

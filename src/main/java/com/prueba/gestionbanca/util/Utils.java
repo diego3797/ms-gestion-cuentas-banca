@@ -26,8 +26,40 @@ public class Utils {
    *
    * @return generateNumber
    */
-  public static int generateNumber() {
+  public static int generateNumberOperation() {
     Random r = new Random(System.currentTimeMillis());
     return ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
   }
+
+  /**
+   * a.
+   *
+   * @return generateNumberCurrentAccount
+   */
+  public static long generateNumberCurrentAccount() {
+    Random random = new Random();
+    return 1000000000000L + (long) (random.nextDouble() * 9000000000000L);
+  }
+
+  /**
+   * a.
+   *
+   * @return generateNumberAccount
+   */
+  public static long generateNumberAccount() {
+    Random random = new Random();
+    return 10000000000000L + (long) (random.nextDouble() * 90000000000000L);
+  }
+
+  /**
+   * a.
+   *
+   * @return generateNumberAccount
+   */
+  public static int generateIdSucursal() {
+    Random r = new Random(System.currentTimeMillis());
+    return ((1 + r.nextInt(2)) * 100 + r.nextInt(100));
+  }
+
+
 }

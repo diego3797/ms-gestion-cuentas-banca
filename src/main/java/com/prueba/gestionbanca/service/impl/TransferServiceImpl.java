@@ -56,7 +56,7 @@ public class TransferServiceImpl implements TransferService {
   public Mono<TransferOperationResponse> registerTransferAccount(TransferRequest transferRequest,
                                                                  EnumTransferType transferType) {
 
-    String numOperation = String.valueOf(Utils.generateNumber());
+    String numOperation = String.valueOf(Utils.generateNumberOperation());
 
     Account accountFrom = registerTransferInAccountFrom(transferRequest,
             numOperation, transferType).block();
@@ -64,9 +64,9 @@ public class TransferServiceImpl implements TransferService {
             numOperation, transferType).block();
 
     updateBalanceAccount(transferRequest.getNumberAccountFrom(),
-            accountFrom.getBalance().subtract(transferRequest.getMount()));
+            accountFrom.getBalance().subtract(transferRequest.getAmount()));
     updateBalanceAccount(transferRequest.getNumberAccountDestiny(),
-              accountDestiny.getBalance().add(transferRequest.getMount()));
+              accountDestiny.getBalance().add(transferRequest.getAmount()));
 
     if (transferType.equals(EnumTransferType.CUENTA_PROPIA)) {
 
@@ -76,7 +76,7 @@ public class TransferServiceImpl implements TransferService {
               .numberAccountFrom(accountFrom.getNumber())
               .typeAccountDestiny(accountDestiny.getType())
               .numberAccountDestiny(accountDestiny.getNumber())
-              .mountTransfer(transferRequest.getMount())
+              .amountTransfer(transferRequest.getAmount())
               .build());
     } else {
 
@@ -93,7 +93,7 @@ public class TransferServiceImpl implements TransferService {
                 .numberAccountDestiny(accountDestiny.getNumber())
                 .numberDocumentThird(document)
                 .nameThird(fullName)
-                .mountTransfer(transferRequest.getMount())
+                .amountTransfer(transferRequest.getAmount())
                 .build());
     }
 
@@ -134,7 +134,7 @@ public class TransferServiceImpl implements TransferService {
                     .dateOperation(new Date())
                     .operationType(operation)
                     .numberAccountDestiny(transferRequest.getNumberAccountDestiny())
-                    .mount(transferRequest.getMount().negate())
+                    .amount(transferRequest.getAmount().negate())
                     .build());
 
     mongoTemplate.updateFirst(query, update, Client.class).subscribe();
@@ -176,7 +176,7 @@ public class TransferServiceImpl implements TransferService {
                     .dateOperation(new Date())
                     .operationType(operation)
                     .numberAccountFrom(transferRequest.getNumberAccountFrom())
-                    .mount(transferRequest.getMount())
+                    .amount(transferRequest.getAmount())
                     .build());
 
     mongoTemplate.updateFirst(query, update, Client.class).subscribe();

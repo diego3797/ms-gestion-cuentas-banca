@@ -18,7 +18,7 @@ public class TransferOperationResponseTest {
         assertNull(response.getNumberAccountDestiny());
         assertNull(response.getNumberDocumentThird());
         assertNull(response.getNameThird());
-        assertNull(response.getMountTransfer());
+        assertNull(response.getAmountTransfer());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class TransferOperationResponseTest {
         assertEquals(numberAccountDestiny, response.getNumberAccountDestiny());
         assertEquals(numberDocumentThird, response.getNumberDocumentThird());
         assertEquals(nameThird, response.getNameThird());
-        assertEquals(mountTransfer, response.getMountTransfer());
+        assertEquals(mountTransfer, response.getAmountTransfer());
     }
 }

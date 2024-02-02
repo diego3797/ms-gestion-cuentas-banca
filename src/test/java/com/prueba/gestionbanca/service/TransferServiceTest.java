@@ -1,8 +1,6 @@
 package com.prueba.gestionbanca.service;
 
 import com.prueba.gestionbanca.expose.request.TransferRequest;
-import com.prueba.gestionbanca.model.Account;
-import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.model.Movements;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.impl.TransferServiceImpl;
@@ -16,14 +14,11 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.eq;
 
 public class TransferServiceTest {
@@ -43,7 +38,7 @@ public class TransferServiceTest {
         TransferRequest transferRequest = TransferRequest.builder()
                 .numberAccountFrom("8965231458796")
                 .numberAccountDestiny("199200145122")
-                .mount(new BigDecimal(200.00))
+                .amount(new BigDecimal(200.00))
                 .build();
         String numOperation = "99991";
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
@@ -58,7 +53,7 @@ public class TransferServiceTest {
                         .dateOperation(new Date())
                         .operationType(EnumOperationType.DEPOSITO_TRANSF_PROPIA)
                         .numberAccountDestiny(transferRequest.getNumberAccountDestiny())
-                        .mount(transferRequest.getMount())
+                        .amount(transferRequest.getAmount())
                         .build());
 
 
