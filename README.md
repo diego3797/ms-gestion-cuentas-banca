@@ -9,7 +9,7 @@ Microservicio que gestion los productos de cliente
    
 3. Se genero el proyecto mediante Api First, donde se mapeo todos los endpoint completos del api
 
-![image](https://github.com/diego3797/ms-gestion-cuentas-banca/assets/75541408/d5086951-fbab-488b-88e4-928f1ee30eff)
+![image](https://github.com/diego3797/ms-gestion-cuentas-banca/assets/75541408/fc33eb1f-b8ea-44c2-bff5-d67367b0c3fe)
 
 Contrato: api_cuentas_banca_v1.yml
    
