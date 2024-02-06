@@ -400,17 +400,105 @@ paths:
                 $ref: '#/components/schemas/ProductoAccountResponse'
         '405':
           description: Invalid input
+  /product/associatedDebitCard:
+    put:
+      tags:
+        - product
+      summary: Associate debit card with account number
+      description: Associate debit card
+      operationId: associateDebitCard
+      requestBody:
+        description: Associate debit card
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssociateRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/AssociateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssociateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssociateResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AssociateResponse'
+        '405':
+          description: Invalid input
   /product/balance/account/{number}:
     get:
       tags:
         - product
-      summary: Gets balance of client account or credit card
-      description: Gets balance of client account or credit card
+      summary: Gets balance of client account number
+      description: ets balance of client account number
       operationId: getBalanceProduct
       parameters:
         - name: number
           in: path
-          description: Account number or Credit number of product of client
+          description: Account number of product of client
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: product not found
+  /product/balance/debit/{numberCard}:
+    get:
+      tags:
+        - product
+      summary: Gets balance of debit card
+      description: Gets balance of debit card
+      operationId: getBalanceDebit
+      parameters:
+        - name: numberCard
+          in: path
+          description: card number debit number of product of client
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BalanceAccountResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: product not found
+  /product/balance/credit/{numberCard}:
+    get:
+      tags:
+        - product
+      summary: Gets balance of credit card
+      description: Gets balance of credit card
+      operationId: getBalanceCredit
+      parameters:
+        - name: numberCard
+          in: path
+          description: card number credit of product of client
           required: true
           schema:
             type: string
@@ -513,6 +601,27 @@ paths:
       summary: Gets report commission by products from client
       description: Gets report commission by products from client
       operationId: getReportCommisionByProduct
+      parameters:
+        - name: accountNumber
+          in: path
+          description: client document number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: client not found
+  /report/movementsCards/{numberDocument}:
+    get:
+      tags:
+        - reports
+      summary: Gets report movements from debit and credit card
+      description: Gets report movements from debit and credit card
+      operationId: getReportMovementsCards
       parameters:
         - name: numberDocument
           in: path
@@ -674,6 +783,12 @@ components:
             wrapped: true
           items:
             $ref: '#/components/schemas/Credit'
+        debit:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Account'
       xml:
         name: product
     Account:
@@ -1102,6 +1217,17 @@ components:
           example: 3000.00
       xml:
         name: balanceCreditResponse
+    BalanceDebitResponse:
+      type: object
+      properties:
+        card:
+          type: string
+          example: "4552758596322526"
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: balanceDebitResponse
     ProductBalanceResponse:
       type: object
       properties:
@@ -1117,6 +1243,12 @@ components:
             wrapped: true
           items:
             $ref: '#/components/schemas/BalanceCreditResponse'
+        debit:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/BalanceDebitResponse'
         totalBalance:
           type: number
           example: 3000.00
@@ -1145,3 +1277,84 @@ components:
           example: 3000.00
       xml:
         name: balanceMovementsResponse
+
+    AssociateRequest:
+      type: object
+      properties:
+        documentNumber:
+          type: string
+          example: "45879965"
+        debitCard:
+          type: string
+          example: "455785264586"
+        accountAssociate:
+          $ref: '#/components/schemas/AssociateAccountRequest'
+      xml:
+        name: associateRequest
+      required:
+        - documentNumber
+        - debitCard
+        - accountAssociate
+    AssociateAccountRequest:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          example: "1991456912568"
+        acountType:
+          type: string
+          example: "Ahorro"
+      xml:
+        name: associateAccountRequest
+      required:
+        - accountNumber
+        - acountType
+    AssociateResponse:
+      type: object
+      properties:
+        clientType:
+          type: string
+          example: "Personal"
+        profileType:
+          type: string
+          example: "VIP"
+        dataCompany:
+          $ref: '#/components/schemas/DataCompany'
+        dataPersonal:
+          $ref: '#/components/schemas/DataPersonal'
+        debit:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/DebitResponse'
+      xml:
+        name: productoAccountResponse
+    DebitResponse:
+      type: object
+      properties:
+        card:
+          type: string
+          example: "455785264586"
+        assciateAccount:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/AccountDebitResponse'
+        balance:
+          type: number
+          example: 3000.00
+      xml:
+        name: debitResponse
+    AccountDebitResponse:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+          example: "1991456912568"
+        dateCreation:
+          type: string
+          example: "2023-02-15 18:35:25"
+      xml:
+        name: accountDebitResponse

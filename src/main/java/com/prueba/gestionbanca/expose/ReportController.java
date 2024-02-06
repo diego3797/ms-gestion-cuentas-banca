@@ -13,7 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 /**
@@ -124,5 +128,50 @@ public class ReportController {
 
     return Mono.just(new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK));
   }
+
+
+
+  /**
+   * .
+   * GET /report/movementsCards/{numberDocument} :
+   * Gets report movements from debit and credit card
+   * Gets report movements from debit and credit card
+   *
+   * @param numberDocument number document of client (required)
+   * @return successful operation (status code 200)
+   *         or Invalid ID supplied (status code 400)
+   *         or product not found (status code 404)
+   */
+  @Operation(
+          operationId = "getReportMovementsCards",
+          summary = "Gets report movements from debit and credit card",
+          description = "Gets report movements from debit and credit card",
+          tags = { "reports" },
+          responses = {
+              @ApiResponse(responseCode = "200", description = "successful operation"),
+              @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+              @ApiResponse(responseCode = "404", description = "product not found")
+          }
+  )
+  @RequestMapping(
+          method = RequestMethod.GET,
+          value = "/movementsCards/{numberDocument}",
+          produces = { "application/json", "application/xml" }
+  )
+  public Mono<ResponseEntity<byte[]>> getReportMovementsCards(
+          @Parameter(name = "numberDocument",
+                  description = "number document of client",
+                  required = true, in = ParameterIn.PATH)
+          @PathVariable("numberDocument") String numberDocument
+  ) throws IOException {
+    byte[] pdfBytes = reportService.generateReportMovementsCards(numberDocument);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.setContentDispositionFormData("filename", "reportMovementsCards.pdf");
+
+    return Mono.just(new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK));
+  }
+
 
 }

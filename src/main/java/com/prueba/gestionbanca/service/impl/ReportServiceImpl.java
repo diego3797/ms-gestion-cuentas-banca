@@ -2,11 +2,9 @@ package com.prueba.gestionbanca.service.impl;
 
 import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
 import com.prueba.gestionbanca.expose.response.BalanceCreditResponse;
+import com.prueba.gestionbanca.expose.response.BalanceDebitResponse;
 import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
-import com.prueba.gestionbanca.model.Account;
-import com.prueba.gestionbanca.model.Client;
-import com.prueba.gestionbanca.model.Credit;
-import com.prueba.gestionbanca.model.Movements;
+import com.prueba.gestionbanca.model.*;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.ReportService;
 import java.io.ByteArrayOutputStream;
@@ -116,8 +114,8 @@ public class ReportServiceImpl implements ReportService {
             rstype = 30 - rtype.length(); // NOSONAR
           } // NOSONAR
 
-          String rcard = account.getCard().trim(); // NOSONAR
-          int rscard = 40 - rcard.length(); // NOSONAR
+          //String rcard = account.getCard().trim(); // NOSONAR
+          //int rscard = 40 - rcard.length(); // NOSONAR
 
           String rnumber = account.getNumber().trim(); // NOSONAR
           int rsnumber = 40 - rnumber.length(); // NOSONAR
@@ -125,9 +123,10 @@ public class ReportServiceImpl implements ReportService {
           String rbalance = String.valueOf(account.getBalance()).trim(); // NOSONAR
           int rsbalance = 25 - rbalance.length(); // NOSONAR
 
-          String fila = String.format("%-" + rstype + "s%-" + rscard + "s%-"
+          String fila = String.format("%-" + rstype  //+ "s%-" + rscard + "s%-"
                           + rsnumber + "s%-" + rsbalance + "s",
-                  account.getType().trim(), account.getCard().trim(), account.getNumber().trim(),
+                  account.getType().trim(), //account.getCard().trim(),
+                  account.getNumber().trim(),
                         String.valueOf(account.getBalance()).trim());
           contentStream.showText(fila);
 
@@ -393,6 +392,234 @@ public class ReportServiceImpl implements ReportService {
 
   }
 
+  @Override
+  public byte[] generateReportMovementsCards(String documentNumber) throws IOException {
+    Mono<Client> dataReport = clientRepo.findMovementsCreditAndDebit(documentNumber);
+
+    Client cli = dataReport.block();
+
+    try (PDDocument document = new PDDocument()) {
+      PDPage page = new PDPage();
+      document.addPage(page);
+
+      try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+        float fontSize = 12;
+        float margin = 50;
+        float yPosition = page.getMediaBox().getHeight() - margin;
+
+
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 16);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(120, yPosition);
+        contentStream.showText("Reporte de Movimientos de Tarjeta Crédito y Débito");
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, 16);
+        yPosition -= 40;
+
+
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("CREDITO");
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("Numero de Tarjeta: " +  dataReport.block().getProduct().getCredit()
+                .stream()
+                .map(Credit::getNumber)
+                .findFirst().orElse(""));
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("Saldo: " +  dataReport.block().getProduct().getCredit()
+                .stream()
+                .map(Credit::getBalance)
+                .findFirst().orElse(BigDecimal.ZERO));
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, 16);
+        yPosition -= 20;
+
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+
+        String numero = "Numero"; // NOSONAR
+        int snumero = 20 - numero.length(); // NOSONAR
+
+        String tipo = "Tipo"; // NOSONAR
+        int stipo = 26 - tipo.length(); // NOSONAR
+
+        String fecha = "Fecha"; // NOSONAR
+        int sfecha = 45 - fecha.length(); // NOSONAR
+
+        String montoNeto = "Monto"; // NOSONAR
+        int smontoNeto = 25 - montoNeto.length(); // NOSONAR
+
+        String formateo = "%-" + snumero + "s%-" + stipo + "s%-" + sfecha + "s%-" + smontoNeto + "s";
+        String cabecera = String.format(formateo, "Numero", "Tipo", "Fecha", "Monto");
+        contentStream.showText(cabecera);
+
+
+        contentStream.endText();
+        yPosition -= 20;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        for (Movements movement :  dataReport.block()
+                .getProduct()
+                .getCredit()
+                .stream()
+                .flatMap(account -> account.getMovements().stream())
+                .collect(Collectors.toList())) {
+
+          contentStream.setFont(PDType1Font.HELVETICA, fontSize);  // NOSONAR
+          contentStream.beginText();  // NOSONAR
+          contentStream.newLineAtOffset(margin, yPosition);  // NOSONAR
+
+          String fnumber = movement.getNumberOperation().trim(); // NOSONAR
+          int fsnumber = 19 - fnumber.length() + 3; // NOSONAR
+
+          String foperation = movement.getOperationType().toString(); // NOSONAR
+          int fsoperation; // NOSONAR
+          if (foperation.equals("DEPOSITO")) {  // NOSONAR
+            fsoperation = 25 - foperation.length() - 2; // NOSONAR
+          } else { // NOSONAR
+            fsoperation = 25 - foperation.length() - 1; // NOSONAR
+          } // NOSONAR
+
+          String fdate = sdf.format(movement.getDateOperation()); // NOSONAR
+          int fsdate = 45 - fdate.length(); // NOSONAR
+
+
+          String fmontoNeto = String.valueOf(movement.getAmount()).trim(); // NOSONAR
+          int fsmontoNeto = 25 - fmontoNeto.length(); // NOSONAR
+
+          String fila = String.format("%-" + fsnumber + "s%-" + fsoperation + "s%-"
+                          + fsdate + "s%-" + fsmontoNeto +"s",
+                  movement.getNumberOperation().trim(), movement.getOperationType().toString(), sdf.format(movement.getDateOperation()),
+                  String.valueOf(movement.getAmount()).trim());
+          contentStream.showText(fila);
+          contentStream.endText();
+          yPosition -= 20;
+
+        }
+
+        contentStream.setFont(PDType1Font.HELVETICA, 16);
+        yPosition -= 40;
+
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("DEBITO");
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("Numero de Tarjeta: " +  dataReport.block().getProduct().getDebit()
+                .stream()
+                .map(Debit::getNumberCard)
+                .findFirst().orElse(""));
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText("Saldo: " +  dataReport.block().getProduct().getDebit()
+                .stream()
+                .map(Debit::getBalance)
+                .findFirst().orElse(BigDecimal.ZERO));
+        contentStream.endText();
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, 16);
+        yPosition -= 20;
+
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+
+        String dnumero = "Numero"; // NOSONAR
+        int sdnumero = 20 - dnumero.length(); // NOSONAR
+
+        String dtipo = "Tipo"; // NOSONAR
+        int sdtipo = 26 - dtipo.length(); // NOSONAR
+
+        String dfecha = "Fecha"; // NOSONAR
+        int sdfecha = 45 - dfecha.length(); // NOSONAR
+
+        String dmontoNeto = "Monto"; // NOSONAR
+        int sdmontoNeto = 25 - dmontoNeto.length(); // NOSONAR
+
+        String dformateo = "%-" + sdnumero + "s%-" + sdtipo + "s%-" + sdfecha + "s%-" + sdmontoNeto + "s";
+        String dcabecera = String.format(dformateo, "Numero", "Tipo", "Fecha", "Monto");
+        contentStream.showText(dcabecera);
+
+
+        contentStream.endText();
+        yPosition -= 20;
+
+        for (Movements movement :  dataReport.block()
+                .getProduct()
+                .getDebit()
+                .stream()
+                .flatMap(account -> account.getMovements().stream())
+                .collect(Collectors.toList())) {
+
+          contentStream.setFont(PDType1Font.HELVETICA, fontSize);  // NOSONAR
+          contentStream.beginText();  // NOSONAR
+          contentStream.newLineAtOffset(margin, yPosition);  // NOSONAR
+
+          String fnumber = movement.getNumberOperation().trim(); // NOSONAR
+          int fsnumber = 19 - fnumber.length() + 3; // NOSONAR
+
+          String foperation = movement.getOperationType().toString(); // NOSONAR
+          int fsoperation; // NOSONAR
+          if (foperation.equals("DEPOSITO")) {  // NOSONAR
+            fsoperation = 25 - foperation.length() - 2; // NOSONAR
+          } else { // NOSONAR
+            fsoperation = 25 - foperation.length() - 1; // NOSONAR
+          } // NOSONAR
+
+          String fdate = sdf.format(movement.getDateOperation()); // NOSONAR
+          int fsdate = 45 - fdate.length(); // NOSONAR
+
+          String fmontoNeto = String.valueOf(movement.getAmount()).trim(); // NOSONAR
+          int fsmontoNeto = 25 - fmontoNeto.length(); // NOSONAR
+
+          String fila = String.format("%-" + fsnumber + "s%-" + fsoperation + "s%-"
+                          + fsdate + "s%-"+ fsmontoNeto +"s",
+                  movement.getNumberOperation().trim(), movement.getOperationType().toString(), sdf.format(movement.getDateOperation()),
+                  String.valueOf(movement.getAmount()).trim());
+          contentStream.showText(fila);
+          contentStream.endText();
+          yPosition -= 20;
+
+        }
+
+
+
+
+      }
+
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      document.save(baos);
+      return baos.toByteArray();
+    }
+  }
+
   /**
    * a.
    *
@@ -404,7 +631,6 @@ public class ReportServiceImpl implements ReportService {
             .flatMap(x -> {
               List<BalanceAccountResponse> balanceAccountLst = x.getProduct().getAccount().stream()
                       .map(account -> new BalanceAccountResponse(account.getType(),
-                              account.getCard(),
                               account.getNumber(),
                               account.getBalance()))
                       .collect(Collectors.toList());
@@ -417,6 +643,11 @@ public class ReportServiceImpl implements ReportService {
                               credit.getBalance()))
                       .collect(Collectors.toList());
 
+              List<BalanceDebitResponse> balanceDebitLst = x.getProduct().getDebit().stream()
+                      .map(account -> new BalanceDebitResponse(account.getNumberCard(),
+                              account.getBalance()))
+                      .collect(Collectors.toList());
+
               BigDecimal accountTotal = x.getProduct().getAccount().stream()
                       .map(Account::getBalance)
                       .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -425,12 +656,16 @@ public class ReportServiceImpl implements ReportService {
                       .map(Credit::getBalance)
                       .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+              BigDecimal debitTotal = x.getProduct().getDebit().stream()
+                      .map(Debit::getBalance)
+                      .reduce(BigDecimal.ZERO, BigDecimal::add);
+
               return Mono.just(ProductBalanceResponse.builder()
                       .account(balanceAccountLst)
                       .credit(balanceCreditLst)
                       .totalBalanceAccount(accountTotal)
                       .totalBalanceCredit(creditTotal)
-                      .totalBalance(accountTotal.add(creditTotal))
+                      .totalBalance(accountTotal.add(creditTotal).add(debitTotal))
                       .build());
             });
   }
