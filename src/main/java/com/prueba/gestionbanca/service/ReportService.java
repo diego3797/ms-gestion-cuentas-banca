@@ -22,4 +22,6 @@ public interface ReportService {
 
   byte[] generateReportTotalComissionByProducts(String accountNumber) throws IOException;
 
+  byte[] generateReportMovementsCards(String documentNumber) throws IOException;
+
 }

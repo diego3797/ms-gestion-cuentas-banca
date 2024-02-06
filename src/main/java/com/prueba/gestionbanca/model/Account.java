@@ -22,12 +22,18 @@ public class Account {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String type;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String card;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String number;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
+  private List<@Valid AccountAssociate> associatedAccount;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal dayMovement;

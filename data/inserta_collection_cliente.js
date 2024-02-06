@@ -23,7 +23,6 @@ db.client.insertMany([
 	    "account" : [
         	{
         		"type" : "Ahorro",
-        		"card" : "552758596322555",
         		"number" : "1992001451155",
         		"movements" : [
         			{
@@ -57,7 +56,6 @@ db.client.insertMany([
         	},
         	{
         		"type" : "Cta Corriente",
-        		"card" : "4552758596322556",
         		"number" : "1992001451156",
         		"movements" : [
         			{
@@ -114,6 +112,46 @@ db.client.insertMany([
         		},
         		"balance" : NumberDecimal("4000.00")
         	}
+        ],
+        "debit" : [
+            {
+               "numberCard" : "552758596322555",
+               "associatedAccount" : [
+                    {
+                        "accountNumber" : "1992001451155",
+                        "dateAssociate" : ISODate("2022-01-20T10:05:45")
+                    }
+               ],
+               "movements" : [
+                	{
+                        "numberOperation" : "12581",
+                        "dateOperation" : ISODate("2022-01-20T10:05:45"),
+                        "operationType" : "DEPOSITO",
+                        "amount" : NumberDecimal("100.00")
+               	    },
+                    {
+                        "numberOperation" : "12582",
+                        "dateOperation" : ISODate("2022-12-10T10:05:45"),
+                        "operationType" : "DEPOSITO",
+                        "amount" : NumberDecimal("1500.00")
+                    },
+                    {
+                        "numberOperation" : "12583",
+                        "dateOperation" : ISODate("2023-01-01T19:22:05"),
+                        "operationType" : "RETIRO",
+                        "amount" : NumberDecimal("-200.00")
+                    }
+               ],
+               "dateCreation" : ISODate("2021-11-15T18:35:25"),
+               "sucursal" : {
+                "id" : "144",
+               	"name" : "ucrcal Las Gardenias",
+               	"address" : "Cale Las Gardenias 65",
+               	"nameOperator" : "Patricio Franco Mena",
+               	"nameManager" : "Susana Rios Torres"
+               },
+               "balance" : NumberDecimal("1600.00")
+             }
         ]
 	}
 },
@@ -140,7 +178,6 @@ db.client.insertMany([
 	    "account" : [
         	{
         		"type" : "Plazo Fijo",
-        		"card" : "552758596322542",
         		"number" : "1992001451142",
         		"dayMovement" : 12,
         		"movements" : [
@@ -175,7 +212,6 @@ db.client.insertMany([
         	},
         	{
         		"type" : "Ahorro",
-        		"card" : "4552758596322543",
         		"number" : "1992001451143",
         		"movements" : [
         			{

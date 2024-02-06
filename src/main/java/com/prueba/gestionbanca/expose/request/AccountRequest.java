@@ -1,14 +1,12 @@
 package com.prueba.gestionbanca.expose.request;
 
-import java.math.BigDecimal;
-
 import com.prueba.gestionbanca.model.Sucursal;
+import java.math.BigDecimal;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.Valid;
 
 
 /**

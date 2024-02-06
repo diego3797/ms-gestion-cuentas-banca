@@ -1,19 +1,30 @@
 package com.prueba.gestionbanca.service.impl;
 
 import com.prueba.gestionbanca.expose.request.AccountRequest;
-import com.prueba.gestionbanca.expose.response.*;
+import com.prueba.gestionbanca.expose.request.AssociateRequest;
+import com.prueba.gestionbanca.expose.response.AssociateResponse;
+import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
+import com.prueba.gestionbanca.expose.response.BalanceCreditResponse;
+import com.prueba.gestionbanca.expose.response.BalanceDebitResponse;
+import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
+import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
+import com.prueba.gestionbanca.expose.response.ProductoAccountResponse;
 import com.prueba.gestionbanca.model.Account;
 import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.model.Credit;
+import com.prueba.gestionbanca.model.Debit;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.ProductService;
 import com.prueba.gestionbanca.util.Constante;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import com.prueba.gestionbanca.util.EnumOperationType;
 import com.prueba.gestionbanca.util.Utils;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -107,18 +118,24 @@ public class ProductServiceImpl implements ProductService {
                                       .append("type", accountRequest.getAccountType())
                                       .append("number", numCuenta)
                                       .append("movements", Arrays.asList(new Document()
-                                              .append("numberOperation", String.valueOf(Utils.generateNumberOperation()))
+                                              .append("numberOperation",
+                                                String.valueOf(Utils.generateNumberOperation()))
                                               .append("dateOperation", new Date())
                                               .append("operationType", EnumOperationType.DEPOSITO)
                                               .append("amount", accountRequest.getAmount())
                                       ))
                                       .append("dateCreation", new Date())
                                       .append("sucursal", new Document()
-                                              .append("id", String.valueOf(Utils.generateIdSucursal()))
-                                              .append("name", accountRequest.getSucursal().getName())
-                                              .append("address", accountRequest.getSucursal().getAddress())
-                                              .append("nameOperator", accountRequest.getSucursal().getNameOperator())
-                                              .append("nameManager", accountRequest.getSucursal().getNameManager())
+                                              .append("id",
+                                                 String.valueOf(Utils.generateIdSucursal()))
+                                              .append("name",
+                                                 accountRequest.getSucursal().getName())
+                                              .append("address",
+                                                 accountRequest.getSucursal().getAddress())
+                                              .append("nameOperator",
+                                                 accountRequest.getSucursal().getNameOperator())
+                                              .append("nameManager",
+                                                 accountRequest.getSucursal().getNameManager())
                                       )
                                       .append("balance", accountRequest.getAmount())
     );
@@ -150,17 +167,66 @@ public class ProductServiceImpl implements ProductService {
   /**
    * a.
    *
+   * @param associateRequest a.
+   * @return AssociateResponse
+   */
+  @Override
+  public Mono<AssociateResponse> associateDebitCard(AssociateRequest associateRequest) {
+
+    if (clientRepo.findAccountByNumberAndDocumentNumber(associateRequest.getDocumentNumber(),
+            associateRequest.getAccountAssociate().getAccountNumber()).block() == null) {
+      return Mono.just(AssociateResponse.builder()
+                      .msg("El número de cuenta a asociar no existe en tus productos")
+              .build());
+    }
+
+    Query query = new Query(
+            new Criteria().orOperator(
+                    Criteria.where("dataPersonal.documentNumber")
+                            .is(associateRequest.getDocumentNumber()),
+                    Criteria.where("dataCompany.ruc")
+                            .is(associateRequest.getDocumentNumber())
+            ).and("product.debit.numberCard")
+                    .is(associateRequest.getDebitCard())
+    );
+    Update update = new Update().push("product.debit.$[].associatedAccount", new Document()
+            .append("accountNumber", associateRequest.getAccountAssociate().getAccountNumber())
+            .append("dateAssociate", new Date())
+
+    );
+
+    mongoTemplate.updateMulti(query, update, Client.class).subscribe();
+
+    return clientRepo.findProductsByDocumentNumber(associateRequest.getDocumentNumber())
+            .flatMap(cli -> {
+              return Mono.just(AssociateResponse.builder()
+                              .clientType(cli.getClientType())
+                              .profileType(cli.getProfileType())
+                              .dataCompany(cli.getDataCompany())
+                              .dataPersonal(cli.getDataPersonal())
+                              .debit(cli.getProduct().getDebit())
+                              .build());
+            });
+  }
+
+
+  /**
+   * a.
+   *
    * @param number a.
    * @return findProducByNumber
    */
   @Override
-  public Mono<BalanceAccountResponse> findProducByNumber(String number) {
-    if (number.length() == Constante.DIGITS_CARD) {
-      return findProductByCardNumber(number);
+  public Mono<BalanceAccountResponse> findProducByNumber(String number, String producto) {
+    if (producto.equals(Constante.TARJETA_CREDITO)) {
+      return findProductByCreditCardNumber(number);
     }
 
-    if (number.length() == Constante.DIGITS_ACCOUNT_CTACORRIENTE
-            || number.length() == Constante.DIGITS_ACCOUNT_AHORRO) {
+    if (producto.equals(Constante.TARJETA_DEBITO)) {
+      return findProductByDebitCardNumber(number);
+    }
+
+    if (producto.equals(Constante.CUENTA)) {
       return findProductByNumberAccount(number);
     }
 
@@ -179,7 +245,6 @@ public class ProductServiceImpl implements ProductService {
             .flatMap(x -> {
               List<BalanceAccountResponse> balanceAccountLst = x.getProduct().getAccount().stream()
                       .map(account -> new BalanceAccountResponse(account.getType(),
-                                                                 account.getCard(),
                                                                  account.getNumber(),
                                                                  account.getBalance()))
                       .collect(Collectors.toList());
@@ -192,6 +257,11 @@ public class ProductServiceImpl implements ProductService {
                                                                credit.getBalance()))
                       .collect(Collectors.toList());
 
+              List<BalanceDebitResponse> balanceDebitLst = x.getProduct().getDebit().stream()
+                      .map(account -> new BalanceDebitResponse(account.getNumberCard(),
+                                                               account.getBalance()))
+                      .collect(Collectors.toList());
+
               BigDecimal accountTotal = x.getProduct().getAccount().stream()
                       .map(Account::getBalance)
                       .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -200,10 +270,15 @@ public class ProductServiceImpl implements ProductService {
                       .map(Credit::getBalance)
                       .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+              BigDecimal debitTotal = x.getProduct().getDebit().stream()
+                      .map(Debit::getBalance)
+                      .reduce(BigDecimal.ZERO, BigDecimal::add);
+
               return Mono.just(ProductBalanceResponse.builder()
                               .account(balanceAccountLst)
                               .credit(balanceCreditLst)
-                              .totalBalance(accountTotal.add(creditTotal))
+                              .debit(balanceDebitLst)
+                              .totalBalance(accountTotal.add(creditTotal).add(debitTotal))
                       .build());
             });
   }
@@ -239,21 +314,43 @@ public class ProductServiceImpl implements ProductService {
   * @param number a.
   * @return findProductByCardNumber
   */
-  public Mono<BalanceAccountResponse> findProductByCardNumber(final String number) {
-    return clientRepo.findCreditByNumber(number).flatMap(x -> {
+  public Mono<BalanceAccountResponse> findProductByCreditCardNumber(final String number) {
+    return clientRepo.findCreditByCardNumber(number).flatMap(x -> {
       Optional<Credit> credit = x.getProduct().getCredit()
                  .stream()
                  .findFirst();
 
       return Mono.just(BalanceAccountResponse.builder()
                          .type(credit.get().getType())
-                         .card(credit.get().getCard())
                          .number(credit.get().getNumber())
                          .balance(credit.get().getBalance())
                  .build());
     });
 
   }
+
+  /**
+   * a.
+   *
+   * @param number a.
+   * @return findProductByCardNumber
+   */
+  public Mono<BalanceAccountResponse> findProductByDebitCardNumber(final String number) {
+    return clientRepo.findDebitByCardNumber(number).flatMap(x -> {
+      Optional<Debit> debit = x.getProduct().getDebit()
+              .stream()
+              .findFirst();
+
+      return Mono.just(BalanceAccountResponse.builder()
+              .number(debit.get().getNumberCard())
+              .balance(debit.get().getBalance())
+              .build());
+    });
+
+  }
+
+
+
 
 
   /**
@@ -272,7 +369,6 @@ public class ProductServiceImpl implements ProductService {
 
       return Mono.just(BalanceAccountResponse.builder()
               .type(account.get().getType())
-              .card(account.get().getCard())
               .number(account.get().getNumber())
               .balance(account.get().getBalance())
               .build());

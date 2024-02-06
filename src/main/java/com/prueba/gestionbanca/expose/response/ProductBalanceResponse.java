@@ -29,6 +29,10 @@ public class ProductBalanceResponse  {
   private List<@Valid BalanceCreditResponse> credit;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
+  private List<@Valid BalanceDebitResponse> debit;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal totalBalanceAccount;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
