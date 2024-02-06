@@ -1,10 +1,8 @@
 package com.prueba.gestionbanca.service;
 
 import com.prueba.gestionbanca.expose.request.AccountRequest;
-import com.prueba.gestionbanca.expose.response.BalanceAccountResponse;
-import com.prueba.gestionbanca.expose.response.BalanceMovementsResponse;
-import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
-import com.prueba.gestionbanca.expose.response.ProductoAccountResponse;
+import com.prueba.gestionbanca.expose.request.AssociateRequest;
+import com.prueba.gestionbanca.expose.response.*;
 import reactor.core.publisher.Mono;
 
 /**
@@ -24,7 +22,9 @@ public interface ProductService {
 
   Mono<ProductoAccountResponse> registerProduct(AccountRequest number);
 
-  Mono<BalanceAccountResponse> findProducByNumber(String number);
+  Mono<AssociateResponse> associateDebitCard(AssociateRequest associateRequest);
+
+  Mono<BalanceAccountResponse> findProducByNumber(String number, String producto);
 
   Mono<ProductBalanceResponse> findProductByDocumentNumber(String document);
 

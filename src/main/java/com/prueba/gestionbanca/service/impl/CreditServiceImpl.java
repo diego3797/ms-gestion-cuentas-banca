@@ -82,7 +82,7 @@ public class CreditServiceImpl implements CreditService {
     mongoTemplate.updateFirst(query, update, Client.class).subscribe();
 
 
-    return clientRepo.findCreditByNumber(creditRequest.getCard())
+    return clientRepo.findCreditByCardNumber(creditRequest.getCard())
                .flatMap(x -> {
 
                  Optional<Credit> credit = x.getProduct().getCredit()
@@ -134,7 +134,7 @@ public class CreditServiceImpl implements CreditService {
   }
 
   private Mono<Client> getCreditbyNumber(String card) {
-    return clientRepo.findCreditByNumber(card);
+    return clientRepo.findCreditByCardNumber(card);
   }
 
   private boolean validMountOperation(String card, String operation, BigDecimal mountNew) {

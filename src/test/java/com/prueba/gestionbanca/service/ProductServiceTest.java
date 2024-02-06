@@ -37,7 +37,7 @@ public class ProductServiceTest {
 
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
         String cardNumber = "1234567890123456";
-        when(clientRepo.findCreditByNumber(cardNumber)).thenReturn(Mono.just(Client.builder()
+        when(clientRepo.findCreditByCardNumber(cardNumber)).thenReturn(Mono.just(Client.builder()
                 .id(clientId)
                 .build()));
 
@@ -94,12 +94,12 @@ public class ProductServiceTest {
 
         String cardNumber = "3777548264544";
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
-        when(clientRepo.findCreditByNumber(cardNumber)).thenReturn(Mono.just(Client.builder()
+        when(clientRepo.findCreditByCardNumber(cardNumber)).thenReturn(Mono.just(Client.builder()
                 .id(clientId)
                 .build()));
 
 
-        Mono<BalanceAccountResponse> result = productService.findProductByCardNumber(cardNumber);
+        Mono<BalanceAccountResponse> result = productService.findProductByCreditCardNumber(cardNumber);
 
     }
 

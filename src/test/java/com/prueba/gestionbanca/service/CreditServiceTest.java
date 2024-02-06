@@ -59,7 +59,7 @@ public class CreditServiceTest {
                         .amount(new BigDecimal(150.00))
                         .build());
 
-        when(clientRepo.findCreditByNumber("3777548264544")).thenReturn(Mono.just(Client.builder()
+        when(clientRepo.findCreditByCardNumber("3777548264544")).thenReturn(Mono.just(Client.builder()
                         .id(clientId)
                         .build()));
 

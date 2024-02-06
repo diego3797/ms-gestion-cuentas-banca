@@ -30,5 +30,9 @@ public class Product {
   @Valid
   private List<@Valid Credit> credit;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
+  private List<@Valid Debit> debit;
+
 }
 

@@ -34,4 +34,8 @@ public class Constante {
   public static final Integer MAX_TRANSACTION = 5;
   public static final BigDecimal COMISSION = new BigDecimal(4.10).setScale(2, BigDecimal.ROUND_UP);
 
+  public static final String TARJETA_CREDITO = "TARJETA_CREDITO";
+  public static final String TARJETA_DEBITO = "TARJETA_DEBITO";
+  public static final String CUENTA = "CUENTA";
+
 }

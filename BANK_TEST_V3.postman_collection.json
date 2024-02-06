@@ -143,7 +143,7 @@
 			"name": "PRODUCTOS",
 			"item": [
 				{
-					"name": "Obtener Saldo de Cuenta o Tarjeta de Credito",
+					"name": "Obtener Saldo de Cuenta",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -161,6 +161,54 @@
 								"balance",
 								"account",
 								"1992001451155"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Saldo de Tarjeta Debito",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/ms-gestion-banca/v1/product/balance/debit/552758596322555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ms-gestion-banca",
+								"v1",
+								"product",
+								"balance",
+								"debit",
+								"552758596322555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Saldo de Tarjeta Credito",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/ms-gestion-banca/v1/product/balance/credit/3777548264544",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ms-gestion-banca",
+								"v1",
+								"product",
+								"balance",
+								"credit",
+								"3777548264544"
 							]
 						}
 					},
@@ -238,6 +286,37 @@
 								"v1",
 								"product",
 								"createAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AsociarTarjetaDebito",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"documentNumber\": \"45859966\",\r\n  \"debitCard\": \"552758596322555\",\r\n  \"accountAssociate\": {\r\n    \"accountNumber\": \"1992001451156\",\r\n    \"acountType\": \"Cta Corriente\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ms-gestion-banca/v1/product/associatedDebitCard",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ms-gestion-banca",
+								"v1",
+								"product",
+								"associatedDebitCard"
 							]
 						}
 					},
@@ -450,7 +529,7 @@
 			"name": "REPORTES",
 			"item": [
 				{
-					"name": "SALDO DE TODOS LOS PRODUCTOS",
+					"name": "REPORTE SALDO DE TODOS LOS PRODUCTOS",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -473,7 +552,7 @@
 					"response": []
 				},
 				{
-					"name": "TOTAL DE COMISIONES POR PRODUCTO",
+					"name": "REPORTE TOTAL DE COMISIONES POR PRODUCTO",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -490,6 +569,29 @@
 								"report",
 								"commissionbyProduct",
 								"1992001451155"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REPORTE DE MOVIEMIENTOS DE TARJETA DE CREDITO Y DEBITO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/ms-gestion-banca/v1/report/movementsCards/45859966",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ms-gestion-banca",
+								"v1",
+								"report",
+								"movementsCards",
+								"45859966"
 							]
 						}
 					},

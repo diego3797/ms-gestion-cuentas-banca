@@ -1,13 +1,13 @@
 package com.prueba.gestionbanca.expose.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.math.BigDecimal;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
-import java.math.BigDecimal;
 
 /**
  * .
@@ -26,6 +26,7 @@ public class TransferRequest {
   private String numberAccountFrom;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @Valid
   private String numberDocumentTercery;
 
   @Valid
