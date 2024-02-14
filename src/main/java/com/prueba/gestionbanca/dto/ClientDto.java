@@ -49,4 +49,6 @@ public class ClientDto {
 
   private Product product; // NOSONAR
 
+  public ClientDto(ObjectId id, String clientType, DataCompany dataCompany, DataPersonal dataPersonal, String email, String phone, Address address, Product product) {
+  }
 }

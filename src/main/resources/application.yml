@@ -1,7 +1,11 @@
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /ms-gestion-banca/v1
+
+logging:
+  level:
+    root: INFO
 
 spring:
   application:
@@ -10,4 +14,5 @@ spring:
     mongodb:
       user: admin
       password: admin
-      uri: mongodb://localhost:27017/Bank
+      uri: mongodb://admin:admin@servermongodb:27017/Bank?authSource=admin
+      #uri: mongodb://localhost:27017/Bank
