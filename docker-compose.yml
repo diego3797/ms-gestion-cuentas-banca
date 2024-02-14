@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+  # MongoDB
+  mongo:
+    container_name: servermongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+
+  # Carga inicial de json a BD
+  mongo-carga:
+    env_file:
+      - .env
+    build:
+      context: /data
+      dockerfile: Dockerfile
+      args:
+        - DATABASE_URI=$DATABASE_URI
+        - USERNAME=$MONGO_INITDB_ROOT_USERNAME
+        - PASSWORD=$MONGO_INITDB_ROOT_PASSWORD
+    depends_on:
+      - mongo
+
+  # Api
+  api-springboot:
+    container_name: api-msgestioncuentabanca
+    image: dixgo/api-msgestioncuentabanca:v1
+    ports:
+      - "9092:8080"
+    links:
+      - mongo

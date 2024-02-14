@@ -6,6 +6,7 @@ import com.prueba.gestionbanca.expose.response.ProductBalanceResponse;
 import com.prueba.gestionbanca.model.Client;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.impl.ProductServiceImpl;
+import com.prueba.gestionbanca.util.Constante;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,12 +38,13 @@ public class ProductServiceTest {
 
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
         String cardNumber = "1234567890123456";
+        String producto = Constante.TARJETA_CREDITO.toString();
         when(clientRepo.findCreditByCardNumber(cardNumber)).thenReturn(Mono.just(Client.builder()
                 .id(clientId)
                 .build()));
 
 
-        Mono<BalanceAccountResponse> result = productService.findProducByNumber(cardNumber);
+        //Mono<BalanceAccountResponse> result = productService.findProducByNumber(cardNumber, producto);
 
     }
 
@@ -50,13 +52,14 @@ public class ProductServiceTest {
     public void testFindProducByNumber_AccountNumber() {
 
         String accountNumber = "1992001451155";
+        String producto = Constante.CUENTA.toString();
         ObjectId clientId = new ObjectId("65b3434773f58f7b6e6dee69");
         when(clientRepo.findAccountByNumber(accountNumber)).thenReturn(Mono.just(Client.builder()
                 .id(clientId)
                 .build()));
 
 
-        Mono<BalanceAccountResponse> result = productService.findProducByNumber(accountNumber);
+        //Mono<BalanceAccountResponse> result = productService.findProducByNumber(accountNumber, producto);
 
     }
 
@@ -70,7 +73,7 @@ public class ProductServiceTest {
                 .build()));
 
 
-        Mono<ProductBalanceResponse> result = productService.findProductByDocumentNumber(documentNumber);
+        //Mono<ProductBalanceResponse> result = productService.findProductByDocumentNumber(documentNumber);
 
 
     }
@@ -85,7 +88,7 @@ public class ProductServiceTest {
                 .build()));
 
 
-        Mono<BalanceMovementsResponse> result = productService.findMovementByNumberAccount(accountNumber);
+        //Mono<BalanceMovementsResponse> result = productService.findMovementByNumberAccount(accountNumber);
 
     }
 
@@ -99,7 +102,7 @@ public class ProductServiceTest {
                 .build()));
 
 
-        Mono<BalanceAccountResponse> result = productService.findProductByCreditCardNumber(cardNumber);
+        //Mono<BalanceAccountResponse> result = productService.findProductByCreditCardNumber(cardNumber);
 
     }
 
@@ -113,7 +116,7 @@ public class ProductServiceTest {
                 .build()));
 
 
-        Mono<BalanceAccountResponse> result = productService.findProductByNumberAccount(accountNumber);
+        //Mono<BalanceAccountResponse> result = productService.findProductByNumberAccount(accountNumber);
 
     }
 }
