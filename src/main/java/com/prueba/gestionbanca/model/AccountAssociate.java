@@ -18,6 +18,6 @@ public class AccountAssociate {
 
   private String accountNumber;
 
-  private Date dateAssociate;
+  private String dateAssociate;
 
 }
