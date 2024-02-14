@@ -30,4 +30,6 @@ Contrato: api_cuentas_banca_v1.yml
 5. Se implemento la revisiones de checkStyle y Sonarqube
 6. Se creo carpeta Data en la raiz con script de insercion de la coleccion cliente
 7. Se agrego la collection postman en la raiz, con las funcionalidades detalladas
+8. Se dockerizo el applicativo mediante docker-compose.yml, el genera 3 servicios: mongodb, sprinboot y carga data mongodb.
+   
 
