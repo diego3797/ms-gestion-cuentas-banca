@@ -3,11 +3,8 @@ package com.prueba.gestionbanca.service.impl;
 import com.prueba.gestionbanca.dto.ClientDto;
 import com.prueba.gestionbanca.expose.request.ClientRequest;
 import com.prueba.gestionbanca.model.Client;
-import com.prueba.gestionbanca.model.Ubigeo;
 import com.prueba.gestionbanca.repository.ClientRepository;
 import com.prueba.gestionbanca.service.ClientService;
-import com.prueba.gestionbanca.util.Constante;
-import java.util.Date;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,11 +43,6 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public Mono<Client> addClient(final ClientRequest clientReq) {
 
-    Ubigeo ubigeo = Ubigeo.builder()
-           .userCreation(Constante.USER_MS)
-           .dateCreation(new Date())
-           .build();
-
     Client newClient;
     if (Objects.nonNull(clientReq.getDataPersonal())) {
       newClient = Client.builder()
@@ -60,7 +52,6 @@ public class ClientServiceImpl implements ClientService {
                 .phono(clientReq.getPhono())
                 .address(clientReq.getAddress())
                 .product(clientReq.getProduct())
-                .ubigeo(ubigeo)
                 .build();
     } else {
       newClient = Client.builder()
@@ -70,7 +61,6 @@ public class ClientServiceImpl implements ClientService {
                 .phono(clientReq.getPhono())
                 .address(clientReq.getAddress())
                 .product(clientReq.getProduct())
-                .ubigeo(ubigeo)
                 .build();
     }
 
@@ -119,10 +109,6 @@ public class ClientServiceImpl implements ClientService {
                client.setPhono(clientReq.getPhono());
                client.setAddress(clientReq.getAddress());
                client.setProduct(clientReq.getProduct());
-               client.setUbigeo(Ubigeo.builder()
-                       .userUpdate(Constante.USER_MS)
-                       .dateUpdate(new Date())
-                       .build());
                return clientRepo.save(client);
              });
   }

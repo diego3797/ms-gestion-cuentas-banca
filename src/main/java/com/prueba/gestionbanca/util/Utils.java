@@ -1,5 +1,7 @@
 package com.prueba.gestionbanca.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -60,6 +62,17 @@ public class Utils {
     Random r = new Random(System.currentTimeMillis());
     return ((1 + r.nextInt(2)) * 100 + r.nextInt(100));
   }
+
+  /**
+   * a.
+   *
+   * @return convertDateToString
+   */
+  public static String convertDateToString(Date dt) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    return dateFormat.format(dt);
+  }
+
 
 
 }

@@ -127,11 +127,13 @@ public class TransferServiceImpl implements TransferService {
       operation = EnumOperationType.TRANSF_CUENTA_TERCERO;
     }
 
+
+
     Query query = createQuery(transferRequest.getNumberAccountFrom());
     Update update = new Update().push("product.account.$.movements",
             Movements.builder()
                     .numberOperation(numOperation)
-                    .dateOperation(new Date())
+                    .dateOperation(Utils.convertDateToString(new Date()))
                     .operationType(operation)
                     .numberAccountDestiny(transferRequest.getNumberAccountDestiny())
                     .amount(transferRequest.getAmount().negate())
@@ -173,7 +175,7 @@ public class TransferServiceImpl implements TransferService {
     Update update = new Update().push("product.account.$.movements",
             Movements.builder()
                     .numberOperation(numOperation)
-                    .dateOperation(new Date())
+                    .dateOperation(Utils.convertDateToString(new Date()))
                     .operationType(operation)
                     .numberAccountFrom(transferRequest.getNumberAccountFrom())
                     .amount(transferRequest.getAmount())

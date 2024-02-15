@@ -50,7 +50,7 @@ public class TransferServiceTest {
         Update update = new Update().push("product.account.$.movements",
                 Movements.builder()
                         .numberOperation(numOperation)
-                        .dateOperation(new Date())
+                        .dateOperation("2022-01-20T10:05:45")
                         .operationType(EnumOperationType.DEPOSITO_TRANSF_PROPIA)
                         .numberAccountDestiny(transferRequest.getNumberAccountDestiny())
                         .amount(transferRequest.getAmount())
