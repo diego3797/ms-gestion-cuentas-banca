@@ -16,3 +16,7 @@ spring:
       password: admin
       uri: mongodb://admin:admin@servermongodb:27017/Bank?authSource=admin
       #uri: mongodb://localhost:27017/Bank
+
+
+
+

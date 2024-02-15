@@ -54,7 +54,7 @@ public class CreditServiceTest {
         Update update = new Update().push("product.credit.$.movements",
                 Movements.builder()
                         .numberOperation("12345")
-                        .dateOperation(new Date())
+                        .dateOperation("2022-01-20T10:05:45")
                         .operationType(EnumOperationType.PAGO_MINIMO)
                         .amount(new BigDecimal(150.00))
                         .build());

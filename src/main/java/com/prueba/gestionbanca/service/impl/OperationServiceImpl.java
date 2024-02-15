@@ -76,7 +76,7 @@ public class OperationServiceImpl implements OperationService {
 
     Movements mevement = Movements.builder()
                         .numberOperation(numOperation)
-                        .dateOperation(new Date())
+                        .dateOperation(Utils.convertDateToString(new Date()))
                         .operationType(operation)
                         .amount(mountOperation)
                         .build();
@@ -96,7 +96,7 @@ public class OperationServiceImpl implements OperationService {
 
         mevement = Movements.builder()
                 .numberOperation(numOperation)
-                .dateOperation(new Date())
+                .dateOperation(Utils.convertDateToString(new Date()))
                 .operationType(operation)
                 .comission(Constante.COMISSION)
                 .grossAmount(mountOperation)

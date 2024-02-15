@@ -66,9 +66,11 @@ public class CreditServiceImpl implements CreditService {
       amount = creditRequest.getAmountConsume();
     }
 
+
+
     Update update = new Update().push("product.credit.$.movements", Movements.builder()
                                                                   .numberOperation(numOperation)
-                                                                  .dateOperation(new Date())
+                                                                  .dateOperation(Utils.convertDateToString(new Date()))
                                                                   .operationType(enumOpe)
                                                                   .amount(amount)
                                                                   .build());

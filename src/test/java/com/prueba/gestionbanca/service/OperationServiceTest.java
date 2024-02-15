@@ -54,7 +54,7 @@ public class OperationServiceTest {
         Update update = new Update().push("product.account.$.movements",
                 Movements.builder()
                         .numberOperation("12345")
-                        .dateOperation(new Date())
+                        .dateOperation("2022-01-20T10:05:45")
                         .operationType(operation)
                         .amount(depositRequest.getAmount())
                         .build());
@@ -82,7 +82,7 @@ public class OperationServiceTest {
         Update update = new Update().push("product.account.$.movements",
                 Movements.builder()
                         .numberOperation("12345")
-                        .dateOperation(new Date())
+                        .dateOperation("2022-01-20T10:05:45")
                         .operationType(EnumOperationType.DEPOSITO)
                         .amount(new BigDecimal(125.00))
                         .build());
