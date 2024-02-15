@@ -47,5 +47,4 @@ public class Client {
 
   private Product product;
 
-  private Ubigeo ubigeo;
 }
